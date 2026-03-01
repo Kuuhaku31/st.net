@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ClickGame",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Build ClickGame",
+      "program": "${workspaceFolder}/bin/Debug/net10.0-windows/ClickGame.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    }
+  ]
+}
