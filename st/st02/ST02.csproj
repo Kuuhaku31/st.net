@@ -5,6 +5,8 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <!-- <StartupObject>ST02.Calculator</StartupObject> -->
+        <StartupObject>ST02.Syntax.Program</StartupObject>
     </PropertyGroup>
 
 </Project>

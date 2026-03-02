@@ -2,6 +2,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "ST02",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Build ST02",
+      "program": "${workspaceFolder}/st/st02/bin/Debug/net10.0/ST02.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/st/st02",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
       "name": "ST01",
       "type": "coreclr",
       "request": "launch",
