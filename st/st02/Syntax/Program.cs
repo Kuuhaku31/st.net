@@ -21,6 +21,11 @@ namespace ST02.Syntax
             order2.DisplayOrder();
 
             Console.WriteLine($"Order1 ID: {order1.OrderId}, Customer: {order1.CustomerName}, Date: {order1.OrderDate}");
+
+            Console.WriteLine();
+
+            order1.Remark = "Urgent delivery";
+            order1.DisplayOrder();
         }
     }
 }

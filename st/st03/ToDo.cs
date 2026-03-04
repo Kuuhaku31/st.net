@@ -1,39 +1,17 @@
-﻿namespace Syntax
+﻿namespace ST03
 {
-    internal class ToDo
+    internal class ToDo(int id, string name, DateTime deadline, bool completed)
     {
-        private int _id;
-        private string _name;
-        private DateTime _deadline;
-        private bool _completed;
+        public int      Id        { get; set; } = id;
+        public string   Name      { get; set; } = name;
+        public DateTime Deadline  { get; set; } = deadline;
+        public bool     Completed { get; set; } = completed;
 
-        public ToDo(int id, string name, DateTime deadline, bool completed)
+        static void
+        Main(string[] args)
         {
-            _id = id;
-            _name = name;
-            _deadline = deadline;
-            _completed = completed;
-        }
+            ToDo t = new(1, "s", new DateTime(1), true);
 
-        public int Id
-        {
-            get
-            {
-                Console.WriteLine("Get: " + _id);
-                return _id;
-            }
-            set
-            {
-                Console.WriteLine("Set: " + value);
-                _id = value;
-            }
-        }
-
-        static void Main(string[] args)
-        {
-            ToDo t = new ToDo(1, "s", new DateTime(1), true);
-
-            t.Id = 3;
             Console.WriteLine(t.Id);
         }
     }
