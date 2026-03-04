@@ -14,5 +14,27 @@
             _deadline = deadline;
             _completed = completed;
         }
+
+        public int Id
+        {
+            get
+            {
+                Console.WriteLine("Get: " + _id);
+                return _id;
+            }
+            set
+            {
+                Console.WriteLine("Set: " + value);
+                _id = value;
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            ToDo t = new ToDo(1, "s", new DateTime(1), true);
+
+            t.Id = 3;
+            Console.WriteLine(t.Id);
+        }
     }
 }

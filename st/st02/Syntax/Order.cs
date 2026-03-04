@@ -2,9 +2,13 @@
 {
     internal class Order(int orderId, string customerName, DateTime orderDate)
     {
-        private readonly int      _orderId      = orderId;
-        private readonly string   _customerName = customerName;
-        private readonly DateTime _orderDate    = orderDate;
+        private int      _orderId      = orderId;
+        private string   _customerName = customerName;
+        private DateTime _orderDate    = orderDate;
+
+        public int      OrderId      { get { return _orderId;      } set { _orderId      = value; } }
+        public string   CustomerName { get { return _customerName; } set { _customerName = value; } }
+        public DateTime OrderDate    { get { return _orderDate;    } set { _orderDate    = value; } }
 
         public void DisplayOrder()
         {
