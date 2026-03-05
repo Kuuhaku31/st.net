@@ -7,3 +7,5 @@ obj/
 
 *.clang-format
 *.zip
+
+.vs/
