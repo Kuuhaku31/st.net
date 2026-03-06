@@ -1,0 +1,58 @@
+﻿<Window x:Class="Layout.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Layout"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="450"
+        Width="800">
+    <Grid Height="200"
+          Width="300">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Content="Sign up to become a member."/>
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Name"/>
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"/>
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="Email"/>
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"/>
+        <Button
+            Grid.Row="3"
+            Grid.Column="2"
+            Content="Sign up"/>
+        <TextBlock
+            Grid.Row="4"
+            Grid.ColumnSpan="3"
+            TextWrapping="Wrap">
+            Please enter your name and email address.<LineBreak/>
+            By clicking Sign up, you agree to our Terms and that you have read our Data Use Policy.
+        </TextBlock>
+    </Grid>
+</Window>

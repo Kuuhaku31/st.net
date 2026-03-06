@@ -2,6 +2,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "ST05",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Build ST05",
+      "program": "${workspaceFolder}/st/st05/bin/Debug/net10.0-windows/ST05.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/st/st05",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
       "name": "ST04",
       "type": "coreclr",
       "request": "launch",
