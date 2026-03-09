@@ -6,5 +6,8 @@ namespace ST06
     {
         [ObservableProperty]
         private int _volume = 50;
+
+        [ObservableProperty]
+        private string _name = "";
     }
 }

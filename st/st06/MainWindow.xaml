@@ -9,17 +9,22 @@
     Title="MainWindow"
     Height="450"
     Width="800">
+    <!-- Window.DataContext 定义了窗口的数据上下文 -->
     <Window.DataContext>
+        <!-- 创建 ViewModel 实例 -->
         <local:ViewModel/>
     </Window.DataContext>
     <Grid>
+        <!-- Binding Volume 表示数据绑定到 Volume 属性 -->
+        <!-- UpdateSourceTrigger=PropertyChanged 表示在属性更改时更新源 -->
+        <!-- VerticalAlignment="Top" 表示控件在垂直方向上对齐到顶部 -->
         <TextBox
             x:Name="InputTextBox"
             HorizontalAlignment="Left"
             Height="23"
             Margin="10,10,0,0"
             TextWrapping="Wrap"
-            Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}"
+            Text="{Binding Volume, UpdateSourceTrigger=PropertyChanged}"
             VerticalAlignment="Top"
             Width="200"/>
         <Slider
@@ -31,5 +36,21 @@
             Minimum="10"
             Maximum="30"
             Value="{Binding Volume, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- 名称输入 -->
+        <TextBox
+            x:Name="InputTextBoxName"
+            HorizontalAlignment="Left"
+            Height="23"
+            Margin="10,80,0,0"
+            TextWrapping="Wrap"
+            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+            VerticalAlignment="Top"
+            Width="200"/>
+        <Label
+            HorizontalAlignment="Left"
+            Margin="10,110,0,0"
+            VerticalAlignment="Top"
+            Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>
