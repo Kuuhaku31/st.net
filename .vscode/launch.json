@@ -13,11 +13,11 @@
       "stopAtEntry": false
     },
     {
-      "name": "ST05",
+      "name": "st05",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "Build ST05",
-      "program": "${workspaceFolder}/st/st05/bin/Debug/net10.0-windows/ST05.dll",
+      "preLaunchTask": "Build st05",
+      "program": "${workspaceFolder}/st/st05/bin/Debug/net10.0-windows/st05.dll",
       "args": [],
       "cwd": "${workspaceFolder}/st/st05",
       "console": "internalConsole",

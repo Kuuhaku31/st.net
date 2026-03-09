@@ -14,12 +14,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Build ST05",
+      "label": "Build st05",
       "command": "dotnet",
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/st/st05/ST05.csproj",
+        "${workspaceFolder}/st/st05/st05.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary;ForceNoAlign"
       ],

@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace ST05;
+namespace st05;
 
 /// <summary>
 /// Interaction logic for App.xaml
