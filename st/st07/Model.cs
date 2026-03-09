@@ -1,11 +1,14 @@
-using System.IO;
-using System.Windows.Media.Media3D;
 
-namespace BMI
+using System.IO;
+
+namespace st07
 {
-    internal class Model
+    // 模型层
+    internal class
+    Model
     {
-       public double Calc(double meterHeight, double kgWeight)
+        public static double
+        Calc(double meterHeight, double kgWeight)
         {
             double bmi = kgWeight / (meterHeight * meterHeight);
 
