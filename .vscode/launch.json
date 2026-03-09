@@ -2,11 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "ST06",
+      "name": "st06",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "Build ST06",
-      "program": "${workspaceFolder}/st/st06/bin/Debug/net10.0-windows/ST06.dll",
+      "preLaunchTask": "Build st06",
+      "program": "${workspaceFolder}/st/st06/bin/Debug/net10.0-windows/st06.dll",
       "args": [],
       "cwd": "${workspaceFolder}/st/st06",
       "console": "internalConsole",

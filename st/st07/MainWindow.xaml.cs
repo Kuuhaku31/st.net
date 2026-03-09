@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ST07;
+namespace st07;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

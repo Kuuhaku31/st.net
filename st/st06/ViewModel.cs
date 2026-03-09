@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace ST06
+namespace st06
 {
     public partial class ViewModel : ObservableObject
     {
