@@ -4,8 +4,13 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:local="clr-namespace:Calc"
   Title="Calc"
-  Height="640"
-  Width="420">
+  Height="700"
+  Width="450"
+  MinHeight="620"
+  MinWidth="390"
+  ResizeMode="NoResize"
+  FontFamily="Bahnschrift"
+  Background="#0B132B">
 
   <!-- 在数据上下文添加 ViewModel 层 -->
   <Window.DataContext>
@@ -14,208 +19,434 @@
 
   <!-- 样式定义 -->
   <Window.Resources>
+    <LinearGradientBrush
+      x:Key="WindowBgBrush"
+      StartPoint="0,0"
+      EndPoint="1,1">
+      <GradientStop
+        Color="#0B132B"
+        Offset="0"/>
+      <GradientStop
+        Color="#1C2541"
+        Offset="0.55"/>
+      <GradientStop
+        Color="#243B55"
+        Offset="1"/>
+    </LinearGradientBrush>
 
-    <Style TargetType="Button">
+    <SolidColorBrush
+      x:Key="PanelBrush"
+      Color="#F7FAFC"/>
+    <SolidColorBrush
+      x:Key="NumberBrush"
+      Color="#FFFFFF"/>
+    <SolidColorBrush
+      x:Key="OpBrush"
+      Color="#E9F4FF"/>
+    <SolidColorBrush
+      x:Key="AccentBrush"
+      Color="#0077B6"/>
+    <SolidColorBrush
+      x:Key="AccentTextBrush"
+      Color="#FFFFFF"/>
+    <SolidColorBrush
+      x:Key="DangerBrush"
+      Color="#FFE5E5"/>
+
+    <Style
+      x:Key="CalcButtonBase"
+      TargetType="Button">
+      <Setter
+        Property="Foreground"
+        Value="#1D2A3A"/>
+      <Setter
+        Property="Background"
+        Value="{StaticResource NumberBrush}"/>
+      <Setter
+        Property="BorderBrush"
+        Value="#D3DEEA"/>
+      <Setter
+        Property="BorderThickness"
+        Value="1"/>
+      <Setter
+        Property="FontWeight"
+        Value="SemiBold"/>
       <Setter
         Property="FontSize"
-        Value="64"/>
+        Value="28"/>
       <Setter
         Property="Margin"
-        Value="1"/>
+        Value="6"/>
+      <Setter
+        Property="MinHeight"
+        Value="56"/>
+      <Setter
+        Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border
+              x:Name="Root"
+              Background="{TemplateBinding Background}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              CornerRadius="14"
+              SnapsToDevicePixels="True">
+              <ContentPresenter
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                RecognizesAccessKey="True"/>
+            </Border>
+
+            <ControlTemplate.Triggers>
+              <Trigger
+                Property="IsMouseOver"
+                Value="True">
+                <Setter
+                  TargetName="Root"
+                  Property="BorderBrush"
+                  Value="#8BB1D8"/>
+              </Trigger>
+              <Trigger
+                Property="IsPressed"
+                Value="True">
+                <Setter
+                  TargetName="Root"
+                  Property="Opacity"
+                  Value="0.85"/>
+              </Trigger>
+              <Trigger
+                Property="IsEnabled"
+                Value="False">
+                <Setter
+                  TargetName="Root"
+                  Property="Opacity"
+                  Value="0.45"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
     </Style>
 
-    <Style TargetType="TextBlock">
+    <Style
+      x:Key="NumberButtonStyle"
+      TargetType="Button"
+      BasedOn="{StaticResource CalcButtonBase}">
+      <Setter
+        Property="Background"
+        Value="{StaticResource NumberBrush}"/>
+    </Style>
+
+    <Style
+      x:Key="OpButtonStyle"
+      TargetType="Button"
+      BasedOn="{StaticResource CalcButtonBase}">
+      <Setter
+        Property="Background"
+        Value="{StaticResource OpBrush}"/>
+      <Setter
+        Property="Foreground"
+        Value="#0F3558"/>
+    </Style>
+
+    <Style
+      x:Key="AccentButtonStyle"
+      TargetType="Button"
+      BasedOn="{StaticResource CalcButtonBase}">
+      <Setter
+        Property="Background"
+        Value="{StaticResource AccentBrush}"/>
+      <Setter
+        Property="BorderBrush"
+        Value="#00608F"/>
+      <Setter
+        Property="Foreground"
+        Value="{StaticResource AccentTextBrush}"/>
+    </Style>
+
+    <Style
+      x:Key="DangerButtonStyle"
+      TargetType="Button"
+      BasedOn="{StaticResource CalcButtonBase}">
+      <Setter
+        Property="Background"
+        Value="{StaticResource DangerBrush}"/>
+      <Setter
+        Property="Foreground"
+        Value="#7A1F1F"/>
+      <Setter
+        Property="BorderBrush"
+        Value="#E6A5A5"/>
+    </Style>
+
+    <Style
+      x:Key="ExpressionTextStyle"
+      TargetType="TextBlock">
       <Setter
         Property="FontSize"
-        Value="64"/>
+        Value="24"/>
+      <Setter
+        Property="Foreground"
+        Value="#4A5B70"/>
       <Setter
         Property="TextAlignment"
         Value="Right"/>
       <Setter
-        Property="Margin"
-        Value="1"/>
+        Property="VerticalAlignment"
+        Value="Center"/>
+      <Setter
+        Property="TextTrimming"
+        Value="CharacterEllipsis"/>
+    </Style>
+
+    <Style
+      x:Key="ResultTextStyle"
+      TargetType="TextBlock">
+      <Setter
+        Property="FontSize"
+        Value="48"/>
+      <Setter
+        Property="FontWeight"
+        Value="Bold"/>
+      <Setter
+        Property="Foreground"
+        Value="#102A43"/>
+      <Setter
+        Property="TextAlignment"
+        Value="Right"/>
+      <Setter
+        Property="VerticalAlignment"
+        Value="Center"/>
+      <Setter
+        Property="TextTrimming"
+        Value="CharacterEllipsis"/>
     </Style>
 
   </Window.Resources>
 
   <!-- 网格布局 -->
-  <Grid
-    Height="600"
-    Width="400">
+  <Grid Background="{StaticResource WindowBgBrush}">
+    <Border
+      Margin="16"
+      Padding="14"
+      Background="{StaticResource PanelBrush}"
+      CornerRadius="24">
+      <Border.Effect>
+        <DropShadowEffect
+          BlurRadius="24"
+          ShadowDepth="0"
+          Opacity="0.25"
+          Color="#000000"/>
+      </Border.Effect>
 
-    <!-- 行列定义（8行4列） -->
-    <Grid.RowDefinitions>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition/>
-      <ColumnDefinition/>
-      <ColumnDefinition/>
-      <ColumnDefinition/>
-    </Grid.ColumnDefinitions>
+      <Grid>
+        <!-- 行列定义（8行4列） -->
+        <Grid.RowDefinitions>
+          <RowDefinition Height="64"/>
+          <RowDefinition Height="84"/>
+          <RowDefinition Height="62"/>
+          <RowDefinition Height="62"/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-    <!-- 显示结果的文本块 -->
-    <TextBlock
-      Text="{Binding Expression}"
-      Grid.Row="0"
-      Grid.Column="0"
-      Grid.ColumnSpan="4"
-      Foreground="Red"
-      Background="LightGreen"/>
-    <TextBlock
-      Text="{Binding Result}"
-      Grid.Row="1"
-      Grid.Column="0"
-      Grid.ColumnSpan="4"
-      Background="LightPink"/>
+        <!-- 显示结果的文本块 -->
+        <Border
+          Grid.Row="0"
+          Grid.Column="0"
+          Grid.ColumnSpan="4"
+          Margin="6,4,6,2"
+          Padding="10,0"
+          Background="#EEF5FC"
+          CornerRadius="12">
+          <TextBlock
+            Text="{Binding Expression}"
+            Style="{StaticResource ExpressionTextStyle}"/>
+        </Border>
+
+        <Border
+          Grid.Row="1"
+          Grid.Column="0"
+          Grid.ColumnSpan="4"
+          Margin="6,2,6,8"
+          Padding="10,0"
+          Background="#E2F0FF"
+          CornerRadius="14">
+          <TextBlock
+            Text="{Binding Result}"
+            Style="{StaticResource ResultTextStyle}"/>
+        </Border>
+
+        <!-- 操作按钮 -->
+        <Button
+          Grid.Row="2"
+          Grid.Column="0"
+          Content="="
+          Style="{StaticResource OpButtonStyle}"
+          Command="{Binding ReplaceCommand}"/>
+        <Button
+          Grid.Row="2"
+          Grid.Column="3"
+          Content="⌫"
+          Style="{StaticResource OpButtonStyle}"
+          Command="{Binding DeleteCharCommand}"/>
+        <Button
+          Grid.Row="3"
+          Grid.Column="0"
+          Content="C"
+          Style="{StaticResource DangerButtonStyle}"
+          Command="{Binding ClearCommand}"/>
+        <Button
+          Grid.Row="6"
+          Grid.Column="3"
+          Grid.RowSpan="2"
+          Content="Enter"
+          Style="{StaticResource AccentButtonStyle}"
+          Command="{Binding ReplaceCommand}"/>
 
 
-    <!-- 操作按钮 -->
-    <Button
-      Grid.Row="2"
-      Grid.Column="0"
-      Content="="
-      Command="{Binding ReplaceCommand}"/>
-    <Button
-      Grid.Row="2"
-      Grid.Column="3"
-      Content="Backspace"
-      Command="{Binding DeleteCharCommand}"/>
-    <Button
-      Grid.Row="3"
-      Grid.Column="0"
-      Content="C"
-      Command="{Binding ClearCommand}"/>
-    <Button
-      Grid.Row="6"
-      Grid.Column="3"
-      Grid.RowSpan="2"
-      Content="Enter"
-      Command="{Binding ReplaceCommand}"/>
+        <!-- 字符按钮 -->
+        <!-- Row 2 -->
+        <Button
+          Grid.Row="2"
+          Grid.Column="1"
+          Content="("
+          Style="{StaticResource OpButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="("/>
+        <Button
+          Grid.Row="2"
+          Grid.Column="2"
+          Content=")"
+          Style="{StaticResource OpButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter=")"/>
 
+        <!-- Row 3 -->
+        <Button
+          Grid.Row="3"
+          Grid.Column="1"
+          Content="/"
+          Style="{StaticResource OpButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="/"/>
+        <Button
+          Grid.Row="3"
+          Grid.Column="2"
+          Content="*"
+          Style="{StaticResource OpButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="*"/>
+        <Button
+          Grid.Row="3"
+          Grid.Column="3"
+          Content="-"
+          Style="{StaticResource OpButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="-"/>
 
-    <!-- 字符按钮 -->
-    <!-- Row 2 -->
-    <Button
-      Grid.Row="2"
-      Grid.Column="1"
-      Content="("
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="("/>
-    <Button
-      Grid.Row="2"
-      Grid.Column="2"
-      Content=")"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter=")"/>
+        <!-- Row 4 -->
+        <Button
+          Grid.Row="4"
+          Grid.Column="0"
+          Content="7"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="7"/>
+        <Button
+          Grid.Row="4"
+          Grid.Column="1"
+          Content="8"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="8"/>
+        <Button
+          Grid.Row="4"
+          Grid.Column="2"
+          Content="9"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="9"/>
+        <Button
+          Grid.Row="4"
+          Grid.Column="3"
+          Grid.RowSpan="2"
+          Content="+"
+          Style="{StaticResource OpButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="+"/>
 
-    <!-- Row 3 -->
-    <Button
-      Grid.Row="3"
-      Grid.Column="1"
-      Content="/"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="/"/>
-    <Button
-      Grid.Row="3"
-      Grid.Column="2"
-      Content="*"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="*"/>
-    <Button
-      Grid.Row="3"
-      Grid.Column="3"
-      Content="-"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="-"/>
+        <!-- Row 5 -->
+        <Button
+          Grid.Row="5"
+          Grid.Column="0"
+          Content="4"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="4"/>
+        <Button
+          Grid.Row="5"
+          Grid.Column="1"
+          Content="5"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="5"/>
+        <Button
+          Grid.Row="5"
+          Grid.Column="2"
+          Content="6"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="6"/>
 
-    <!-- Row 4 -->
-    <Button
-      Grid.Row="4"
-      Grid.Column="0"
-      Content="7"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="7"/>
-    <Button
-      Grid.Row="4"
-      Grid.Column="1"
-      Content="8"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="8"/>
-    <Button
-      Grid.Row="4"
-      Grid.Column="2"
-      Content="9"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="9"/>
-    <Button
-      Grid.Row="4"
-      Grid.Column="3"
-      Grid.RowSpan="2"
-      Content="+"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="+"/>
+        <!-- Row 6 -->
+        <Button
+          Grid.Row="6"
+          Grid.Column="0"
+          Content="1"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="1"/>
+        <Button
+          Grid.Row="6"
+          Grid.Column="1"
+          Content="2"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="2"/>
+        <Button
+          Grid.Row="6"
+          Grid.Column="2"
+          Content="3"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="3"/>
 
-    <!-- Row 5 -->
-    <Button
-      Grid.Row="5"
-      Grid.Column="0"
-      Content="4"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="4"/>
-    <Button
-      Grid.Row="5"
-      Grid.Column="1"
-      Content="5"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="5"/>
-    <Button
-      Grid.Row="5"
-      Grid.Column="2"
-      Content="6"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="6"/>
-
-    <!-- Row 6 -->
-    <Button
-      Grid.Row="6"
-      Grid.Column="0"
-      Content="1"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="1"/>
-    <Button
-      Grid.Row="6"
-      Grid.Column="1"
-      Content="2"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="2"/>
-    <Button
-      Grid.Row="6"
-      Grid.Column="2"
-      Content="3"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="3"/>
-
-    <!-- Row 7 -->
-    <Button
-      Grid.Row="7"
-      Grid.Column="0"
-      Grid.ColumnSpan="2"
-      Content="0"
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="0"/>
-    <Button
-      Grid.Row="7"
-      Grid.Column="2"
-      Content="."
-      Command="{Binding EnterCharCommand}"
-      CommandParameter="."/>
+        <!-- Row 7 -->
+        <Button
+          Grid.Row="7"
+          Grid.Column="0"
+          Grid.ColumnSpan="2"
+          Content="0"
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="0"/>
+        <Button
+          Grid.Row="7"
+          Grid.Column="2"
+          Content="."
+          Style="{StaticResource NumberButtonStyle}"
+          Command="{Binding EnterCharCommand}"
+          CommandParameter="."/>
+      </Grid>
+    </Border>
   </Grid>
 </Window>
