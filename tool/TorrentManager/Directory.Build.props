@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <OutputPath>../../build/TorrentManager/bin/</OutputPath>
+    <BaseIntermediateOutputPath>../../build/TorrentManager/obj/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+</Project>
