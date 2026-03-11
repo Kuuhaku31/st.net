@@ -10,6 +10,7 @@ namespace Calc
         Plus,
         Minus,
         Multiply,
+        Divide,
         Equal,
         Empty
     }
@@ -24,6 +25,7 @@ namespace Calc
                 Operator.Plus => "+",
                 Operator.Minus => "-",
                 Operator.Multiply => "x",
+                Operator.Divide => "/",
                 Operator.Equal => "=",
                 Operator.Empty => "",
                 _ => "",

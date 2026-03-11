@@ -21,7 +21,7 @@ namespace Calc
         [ObservableProperty]
         private int _currentInput = 0;
 
-        // 当用户按下 "C" 键时调用这个方法。它会清除当前输入的数字，但不清除计算结果和运算子。
+        // 当用户按下 "CE" 键时调用这个方法。它会清除当前输入的数字，但不清除计算结果和运算子。
         // 清除当前输入的数字，但不清除计算结果和运算子。
         [RelayCommand]
         private void ClearNumber()
@@ -29,7 +29,7 @@ namespace Calc
             CurrentInput = 0;
         }
 
-        // 当用户按下 "AC" 键时调用这个方法。它会清除所有内容，重置计算器到初始状态。
+        // 当用户按下 "C" 键时调用这个方法。它会清除所有内容，重置计算器到初始状态。
         // 清除所有内容，重置计算器到初始状态。
         [RelayCommand]
         private void Clear()
