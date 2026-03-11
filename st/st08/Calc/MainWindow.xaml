@@ -6,8 +6,6 @@
   Title="Calc"
   Height="700"
   Width="450"
-  MinHeight="620"
-  MinWidth="390"
   ResizeMode="NoResize"
   FontFamily="Bahnschrift"
   Background="#0B132B">
@@ -244,8 +242,8 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="64"/>
           <RowDefinition Height="84"/>
-          <RowDefinition Height="62"/>
-          <RowDefinition Height="62"/>
+          <RowDefinition Height="70"/>
+          <RowDefinition Height="70"/>
           <RowDefinition/>
           <RowDefinition/>
           <RowDefinition/>
