@@ -48,6 +48,7 @@ namespace st08
         [RelayCommand]
         private void EnterNumber(string numStr)
         {
+            // 将字符串转换为整数，并更新当前输入的数字
             CurrentInput = CurrentInput * 10 + Convert.ToInt32(numStr);
         }
 

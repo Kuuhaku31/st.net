@@ -69,6 +69,8 @@
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
 
+
+    <!-- 数字按钮 -->
     <Button
       Grid.Row="2"
       Grid.Column="0"
@@ -87,12 +89,7 @@
       Content="9"
       Command="{Binding EnterNumberCommand}"
       CommandParameter="9"/>
-    <Button
-      Grid.Row="2"
-      Grid.Column="3"
-      Content="+"
-      Command="{Binding EnterOperatorCommand}"
-      CommandParameter="{x:Static local:Operator.Plus}"/>
+
     <Button
       Grid.Row="3"
       Grid.Column="0"
@@ -111,12 +108,7 @@
       Content="6"
       Command="{Binding EnterNumberCommand}"
       CommandParameter="6"/>
-    <Button
-      Grid.Row="3"
-      Grid.Column="3"
-      Content="-"
-      Command="{Binding EnterOperatorCommand}"
-      CommandParameter="{x:Static local:Operator.Minus }"/>
+
     <Button
       Grid.Row="4"
       Grid.Column="0"
@@ -135,12 +127,7 @@
       Content="3"
       Command="{Binding EnterNumberCommand}"
       CommandParameter="3"/>
-    <Button
-      Grid.Row="4"
-      Grid.Column="3"
-      Content="x"
-      Command="{Binding EnterOperatorCommand}"
-      CommandParameter="{x:Static local:Operator.Multiply}"/>
+
     <Button
       Grid.Row="5"
       Grid.Column="0"
@@ -157,12 +144,34 @@
       Grid.Column="2"
       Content="C"
       Command="{Binding ClearCommand}"/>
+
+
+    <!-- 操作符按钮 -->
+    <Button
+      Grid.Row="2"
+      Grid.Column="3"
+      Content="+"
+      Command="{Binding EnterOperatorCommand}"
+      CommandParameter="{x:Static local:Operator.Plus}"/>
+    <Button
+      Grid.Row="3"
+      Grid.Column="3"
+      Content="-"
+      Command="{Binding EnterOperatorCommand}"
+      CommandParameter="{x:Static local:Operator.Minus}"/>
+    <Button
+      Grid.Row="4"
+      Grid.Column="3"
+      Content="x"
+      Command="{Binding EnterOperatorCommand}"
+      CommandParameter="{x:Static local:Operator.Multiply}"/>
     <Button
       Grid.Row="5"
       Grid.Column="3"
       Content="="
       Command="{Binding EnterOperatorCommand}"
       CommandParameter="{x:Static local:Operator.Equal}"/>
+
 
     <!-- 显示结果的文本块 -->
     <!-- 显示结果 -->
