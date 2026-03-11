@@ -54,6 +54,13 @@ internal partial class ViewModel : ObservableObject
     // 刷新结果显示
     private void FlushResult()
     {
+        // 如果表达式为空，结果显示也应该为空
+        if (Expression == "")
+        {
+            Result = "";
+            return;
+        }
+
         var value = Model.Calc(Expression); // 计算当前输入的算式
         if (value.HasValue) Result = value.Value.ToString();
         else Result = "Error";

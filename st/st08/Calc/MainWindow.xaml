@@ -15,13 +15,6 @@
   <!-- 样式定义 -->
   <Window.Resources>
 
-    <!-- 
-      在窗口资源里注册一个“值转换器”实例
-      1. 创建一个 Calc 命名空间下的 OperatorToSymbolConverter 对象。
-      2. 用键名 OperatorToSymbolConverter 把它放进 Window.Resources，后面 XAML 就能通过 StaticResource 引用它。
-    -->
-    <local:OperatorToSymbolConverter x:Key="OperatorToSymbolConverter"/>
-
     <Style TargetType="Button">
       <Setter
         Property="FontSize"
