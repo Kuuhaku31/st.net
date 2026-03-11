@@ -263,7 +263,7 @@
           Grid.ColumnSpan="4"
           Margin="6,4,6,2"
           Padding="10,0"
-          Background="#EEF5FC"
+          Background="#DDE4EB"
           CornerRadius="12">
           <TextBlock
             Text="{Binding Expression}"
