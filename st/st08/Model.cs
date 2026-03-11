@@ -1,19 +1,15 @@
-namespace Calc
+namespace st08
 {
-
     internal class Model
     {
-
         private int _value = 0;
         public void Clear()
         {
-
             _value = 0;
         }
 
         public int Calc(Operator op, int num)
         {
-
             switch (op)
             {
                 case Operator.Empty:
@@ -32,10 +28,8 @@ namespace Calc
                 case Operator.Equal:
                     // Do nothing
                     break;
-
             }
             return _value;
-
         }
     }
 }
