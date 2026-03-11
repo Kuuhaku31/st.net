@@ -1,7 +1,7 @@
 ﻿
 using System.Windows;
 
-namespace st08;
+namespace Calc;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

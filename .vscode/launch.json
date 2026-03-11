@@ -2,13 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "st08",
+      "name": "st08-Calc",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "Build st08",
-      "program": "${workspaceFolder}/st/st08/bin/Debug/net10.0-windows/st08.dll",
+      "preLaunchTask": "Build st08-Calc",
+      "program": "${workspaceFolder}/st/st08/Calc/bin/Debug/net10.0-windows/Calc.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/st/st08",
+      "cwd": "${workspaceFolder}/st/st08/Calc",
       "console": "internalConsole",
       "stopAtEntry": false
     },

@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace st08
+namespace Calc
 {
     internal partial class ViewModel : ObservableObject
     {

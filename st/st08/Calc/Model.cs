@@ -1,4 +1,4 @@
-namespace st08
+namespace Calc
 {
     internal class Model
     {
