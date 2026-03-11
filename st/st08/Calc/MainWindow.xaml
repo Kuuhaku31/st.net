@@ -1,0 +1,202 @@
+﻿<Window
+  x:Class="Calc.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="clr-namespace:Calc"
+  Title="MainWindow"
+  Height="640"
+  Width="420">
+  <!-- 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  -->
+
+  <!-- 在数据上下文添加 ViewModel 层 -->
+  <Window.DataContext>
+    <local:ViewModel/>
+  </Window.DataContext>
+
+  <!-- 样式定义 -->
+  <Window.Resources>
+
+    <!-- 
+      在窗口资源里注册一个“值转换器”实例
+      1. 创建一个 Calc 命名空间下的 OperatorToSymbolConverter 对象。
+      2. 用键名 OperatorToSymbolConverter 把它放进 Window.Resources，后面 XAML 就能通过 StaticResource 引用它。
+    -->
+    <local:OperatorToSymbolConverter x:Key="OperatorToSymbolConverter"/>
+
+    <Style TargetType="Button">
+      <Setter
+        Property="FontSize"
+        Value="64"/>
+      <Setter
+        Property="Margin"
+        Value="1"/>
+    </Style>
+
+    <Style TargetType="TextBlock">
+      <Setter
+        Property="FontSize"
+        Value="64"/>
+      <Setter
+        Property="TextAlignment"
+        Value="Right"/>
+      <Setter
+        Property="Margin"
+        Value="1"/>
+    </Style>
+
+  </Window.Resources>
+
+  <!-- 网格布局 -->
+  <Grid
+    Height="600"
+    Width="400">
+
+    <!-- 行列定义（6行4列） -->
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+
+
+    <!-- 数字按钮 -->
+    <Button
+      Grid.Row="2"
+      Grid.Column="0"
+      Content="7"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="7"/>
+    <Button
+      Grid.Row="2"
+      Grid.Column="1"
+      Content="8"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="8"/>
+    <Button
+      Grid.Row="2"
+      Grid.Column="2"
+      Content="9"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="9"/>
+
+    <Button
+      Grid.Row="3"
+      Grid.Column="0"
+      Content="4"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="4"/>
+    <Button
+      Grid.Row="3"
+      Grid.Column="1"
+      Content="5"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="5"/>
+    <Button
+      Grid.Row="3"
+      Grid.Column="2"
+      Content="6"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="6"/>
+
+    <Button
+      Grid.Row="4"
+      Grid.Column="0"
+      Content="1"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="1"/>
+    <Button
+      Grid.Row="4"
+      Grid.Column="1"
+      Content="2"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="2"/>
+    <Button
+      Grid.Row="4"
+      Grid.Column="2"
+      Content="3"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="3"/>
+
+    <Button
+      Grid.Row="5"
+      Grid.Column="0"
+      Content="0"
+      Command="{Binding EnterNumberCommand}"
+      CommandParameter="0"/>
+    <Button
+      Grid.Row="5"
+      Grid.Column="1"
+      Content="CE"
+      Command="{Binding ClearNumberCommand}"/>
+    <Button
+      Grid.Row="5"
+      Grid.Column="2"
+      Content="C"
+      Command="{Binding ClearCommand}"/>
+
+
+    <!-- 操作符按钮 -->
+    <Button
+      Grid.Row="2"
+      Grid.Column="3"
+      Content="+"
+      Command="{Binding EnterOperatorCommand}"
+      CommandParameter="{x:Static local:Operator.Plus}"/>
+    <Button
+      Grid.Row="3"
+      Grid.Column="3"
+      Content="-"
+      Command="{Binding EnterOperatorCommand}"
+      CommandParameter="{x:Static local:Operator.Minus}"/>
+    <Button
+      Grid.Row="4"
+      Grid.Column="3"
+      Content="x"
+      Command="{Binding EnterOperatorCommand}"
+      CommandParameter="{x:Static local:Operator.Multiply}"/>
+    <Button
+      Grid.Row="5"
+      Grid.Column="3"
+      Content="="
+      Command="{Binding EnterOperatorCommand}"
+      CommandParameter="{x:Static local:Operator.Equal}"/>
+
+
+    <!-- 显示结果的文本块 -->
+    <!-- 显示结果 -->
+    <TextBlock
+      Text="{Binding Result}"
+      Grid.Row="0"
+      Grid.Column="0"
+      Grid.ColumnSpan="4"
+      Background="LightPink"/>
+    <!-- 显示当前输入 -->
+    <TextBlock
+      Text="{Binding CurrentInput}"
+      Grid.Row="1"
+      Grid.Column="1"
+      Grid.ColumnSpan="3"
+      Foreground="Red"
+      Background="LightGreen"/>
+    <!-- 显示下一个操作符 -->
+    <TextBlock
+      Text="{Binding NextOperator, Converter={StaticResource OperatorToSymbolConverter}}"
+      Grid.Row="1"
+      Grid.Column="0"
+      Foreground="Red"
+      Background="LightYellow"/>
+  </Grid>
+</Window>
