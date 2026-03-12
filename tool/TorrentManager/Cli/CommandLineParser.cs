@@ -50,12 +50,12 @@ internal static class CommandLineParser
 
     public static void PrintUsage()
     {
-        Console.WriteLine("TorrentManager");
+        Console.WriteLine(Usages.AppTitle);
         Console.WriteLine();
-        Console.WriteLine("Usage:");
-        Console.WriteLine("  dotnet run -- add <path_to_fastresume_file> [--db <database_path>]");
-        Console.WriteLine("  dotnet run -- add_all <path_to_fastresume_files_directory> [--db <database_path>]");
-        Console.WriteLine("  dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_directory>] [--db <database_path>]");
-        Console.WriteLine("  dotnet run -- update <by_category | by_save_path> <pattern> <replace <search_str> <replace_str> | <new_value>> [options]");
+        Console.WriteLine(Usages.UsageHeader);
+        Console.WriteLine($"  {Usages.AddCommand}");
+        Console.WriteLine($"  {Usages.AddAllCommand}");
+        Console.WriteLine($"  {Usages.ExportCommand}");
+        Console.WriteLine($"  {Usages.UpdateCommand}");
     }
 }

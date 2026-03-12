@@ -76,7 +76,7 @@ TorrentApp
         // 参数验证
         if(positionals.Count < 2)
         {
-            Console.Error.WriteLine("Usage: dotnet run -- add <path_to_fastresume_file> [--db <database_path>]");
+            Console.Error.WriteLine(Usages.UsageAdd);
             return 1;
         }
 
@@ -84,7 +84,7 @@ TorrentApp
         var filePath = positionals[1];
         if(!File.Exists(filePath))
         {
-            Console.Error.WriteLine($"文件不存在: {filePath}");
+            Console.Error.WriteLine(Usages.FileNotFoundPrefix + filePath);
             return 1;
         }
 
@@ -114,14 +114,14 @@ TorrentApp
     {
         if(positionals.Count < 2)
         {
-            Console.Error.WriteLine("Usage: dotnet run -- add_all <path_to_fastresume_files_directory> [--db <database_path>]");
+            Console.Error.WriteLine(Usages.UsageAddAll);
             return 1;
         }
 
         var directory = positionals[1];
         if(!Directory.Exists(directory))
         {
-            Console.Error.WriteLine($"目录不存在: {directory}");
+            Console.Error.WriteLine(Usages.DirectoryNotFoundPrefix + directory);
             return 1;
         }
 
@@ -171,7 +171,7 @@ TorrentApp
         // 参数验证：确保提供了查询方式和匹配模式。
         if(positionals.Count < 3)
         {
-            Console.Error.WriteLine("Usage: dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_directory>] [--db <database_path>]");
+            Console.Error.WriteLine(Usages.UsageExport);
             return 1;
         }
 
@@ -180,8 +180,8 @@ TorrentApp
 
         if(exportMode is not ("by_category" or "by_save_path"))
         {
-            Console.Error.WriteLine("export 参数错误: <by_category | by_save_path>");
-            Console.Error.WriteLine("Usage: dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_directory>] [--db <database_path>]");
+            Console.Error.WriteLine(Usages.ExportModeError);
+            Console.Error.WriteLine(Usages.UsageExport);
             return 1;
         }
 
@@ -197,7 +197,7 @@ TorrentApp
         }
         catch(Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException or UnauthorizedAccessException)
         {
-            Console.Error.WriteLine($"导出路径无效或不可访问: {exportPath}");
+            Console.Error.WriteLine(Usages.ExportPathInvalidPrefix + exportPath);
             return 1;
         }
 
@@ -219,7 +219,7 @@ TorrentApp
     {
         if(positionals.Count < 4)
         {
-            Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <replace <search_str> <replace_str> | <new_value>> [options]");
+            Console.Error.WriteLine(Usages.UsageUpdate);
             return 1;
         }
 
@@ -228,8 +228,8 @@ TorrentApp
 
         if(updateMode is not ("by_category" or "by_save_path"))
         {
-            Console.Error.WriteLine("update 参数错误: <by_category | by_save_path>");
-            Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <replace <search_str> <replace_str> | <new_value>> [options]");
+            Console.Error.WriteLine(Usages.UpdateModeError);
+            Console.Error.WriteLine(Usages.UsageUpdate);
             return 1;
         }
 
@@ -242,7 +242,7 @@ TorrentApp
         {
             if(positionals.Count < 6)
             {
-                Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <replace <search_str> <replace_str> | <new_value>> [options]");
+                Console.Error.WriteLine(Usages.UsageUpdate);
                 return 1;
             }
 
@@ -289,7 +289,7 @@ TorrentApp
     /// <returns></returns>
     private static int RunUnknownCommand(string command)
     {
-        Console.Error.WriteLine($"未知命令: {command}");
+        Console.Error.WriteLine(Usages.UnknownCommandPrefix + command);
         CommandLineParser.PrintUsage();
         return 1;
     }
