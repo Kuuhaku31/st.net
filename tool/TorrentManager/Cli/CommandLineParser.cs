@@ -20,33 +20,31 @@ internal static class CommandLineParser
     public static ParsedArgs
     Parse(string[] input)
     {
-        var options     = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        var positionals = new List<string>();
+        var positionals = new List<string>();                                               // 位置参数列表
+        var options     = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase); // 选项字典，键不区分大小写
 
+        // 遍历输入参数，区分位置参数和选项
         for(var i = 0; i < input.Length; i++)
         {
             var item = input[i];
-            if(item.StartsWith("--", StringComparison.Ordinal))
+            if(item.StartsWith("--", StringComparison.Ordinal)) // 如果以 -- 开头，视为选项
             {
-                var key = item[2..];
-                if(i + 1 >= input.Length || input[i + 1].StartsWith("--", StringComparison.Ordinal))
-                {
+                var key = item[2..]; // 去掉 -- 前缀得到选项名称
+                if(i + 1 >= input.Length || input[i + 1].StartsWith("--", StringComparison.Ordinal)) // 选项必须有对应值，且下一个参数不能是另一个选项
                     throw new ArgumentException($"选项 '--{key}' 缺少值。");
-                }
-
-                options[key] = input[i + 1];
-                i++;
-                continue;
+                options[key] = input[++i]; // 将选项值存入字典，++i 跳过值参数
             }
-
-            positionals.Add(item);
+            else positionals.Add(item); // 否则视为位置参数，添加到列表
         }
 
-        if(!options.ContainsKey("db") || string.IsNullOrWhiteSpace(options["db"]))
+        // 如果用户没有提供 --db 选项，使用默认数据库路径
+        if(!options.TryGetValue("db", out string? value) || string.IsNullOrWhiteSpace(value))
         {
-            options["db"] = DefaultDbPath;
+            value = DefaultDbPath;
+            options["db"] = value;
         }
 
+        // 返回解析结果对象
         return new ParsedArgs(positionals, options);
     }
 

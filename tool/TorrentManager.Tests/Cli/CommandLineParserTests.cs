@@ -29,6 +29,13 @@ CommandLineParserTests(ITestOutputHelper output)
         var parsed = CommandLineParser.Parse(args);
         output.WriteLine(parsed.ToString());
 
+        Assert.Equal(3, parsed.Positionals.Count);
+        Assert.Equal(2, parsed.Options.Count);
+
+        Assert.Equal("export", parsed.Positionals[0]);
+        Assert.Equal("by_save_path", parsed.Positionals[1]);
+        Assert.Equal("%\\music\\%", parsed.Positionals[2]);
+
         Assert.Equal("custom.db", parsed.Options["db"]);
         Assert.Equal("_out", parsed.Options["path"]);
     }

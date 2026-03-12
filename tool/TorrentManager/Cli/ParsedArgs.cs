@@ -13,7 +13,7 @@ internal sealed record ParsedArgs(
     public override string ToString()
     {
         var pos  = string.Join(", ", Positionals);
-        var opts = string.Join(", ", Options.Select(kv => $"--{kv.Key}={kv.Value}"));
+        var opts = string.Join(", ", Options.Select(kv => $"{kv.Key}={kv.Value}"));
         return $"Positionals: [{pos}], Options: {{{opts}}}";
     }
 }
