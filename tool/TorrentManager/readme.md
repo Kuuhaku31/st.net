@@ -70,7 +70,7 @@ dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_dire
 命令行示例:
 
 ```
-dotnet run -- replace <by_category | by_save_path> <pattern> <new_value> [--db <database_path>] # 更新指定分类或保存路径的记录
+dotnet run -- update <by_category | by_save_path> <pattern> <new_value> [--db <database_path>] # 更新指定分类或保存路径的记录
 ```
 
 逻辑:
@@ -105,8 +105,8 @@ dotnet run -- export by_category music% --path _exported_music
 dotnet run -- export by_save_path %\music\% --path _exported\music
 
 
-dotnet run -- replace by_category music/2026-03-07/tmp music/2026-03-07/tmp2
-dotnet run -- replace by_save_path D:\qb\Downloads\music\2026-03-07\tmp D:\qb\Downloads\music\2026-03-07\tmp2
+dotnet run -- update by_category music/2026-03-07/tmp music/2026-03-07/tmp2
+dotnet run -- update by_save_path D:\qb\Downloads\music\2026-03-07\tmp D:\qb\Downloads\music\2026-03-07\tmp2
 
 dotnet run -- export by_save_path %tmp2 --path _exported\tmp2
 ```

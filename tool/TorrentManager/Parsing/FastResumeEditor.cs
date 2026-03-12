@@ -7,6 +7,13 @@ using System.Text;
 /// </summary>
 internal static class FastResumeEditor
 {
+    /// <summary>
+    /// 替换指定字段的值：解析原始字节数组，修改指定字段的值为新的字符串（UTF-8 编码），然后重新编码为字节数组。
+    /// </summary>
+    /// <param name="originalBytes">原始 .fastresume 文件内容的字节数组</param>
+    /// <param name="fieldName">要替换的字段名称（如 "qBt-category" 或 "save_path"）</param>
+    /// <param name="newValue">新的字段值（字符串，将被编码为 UTF-8 字节）</param>
+    /// <returns>修改后的 .fastresume 文件内容的字节数组</returns>
     public static byte[] ReplaceField(byte[] originalBytes, string fieldName, string newValue)
     {
         var parser = new BencodeParser(originalBytes);

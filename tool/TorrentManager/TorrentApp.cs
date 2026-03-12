@@ -58,7 +58,7 @@ TorrentApp
             "add"     => RunAdd           (parsed.Positionals, repository),
             "add_all" => RunAddAll        (parsed.Positionals, repository),
             "export"  => RunExport        (parsed.Positionals, parsed.Options, repository),
-            "replace" => RunReplace       (parsed.Positionals, repository),
+            "update" => RunUpdate       (parsed.Positionals, repository),
             _         => RunUnknownCommand(command)
         };
     }
@@ -215,27 +215,27 @@ TorrentApp
     }
 
     private static int
-    RunReplace(IReadOnlyList<string> positionals, TorrentRepository repository)
+    RunUpdate(IReadOnlyList<string> positionals, TorrentRepository repository)
     {
         if(positionals.Count < 4)
         {
-            Console.Error.WriteLine("Usage: dotnet run -- replace <by_category | by_save_path> <pattern> <new_value> [--db <database_path>]");
+            Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <new_value> [--db <database_path>]");
             return 1;
         }
 
-        var replaceMode = positionals[1].ToLowerInvariant();
+        var updateMode = positionals[1].ToLowerInvariant();
         var pattern = positionals[2];
         var newValue = positionals[3];
 
-        if(replaceMode is not ("by_category" or "by_save_path"))
+        if(updateMode is not ("by_category" or "by_save_path"))
         {
-            Console.Error.WriteLine("replace 参数错误: <by_category | by_save_path>");
-            Console.Error.WriteLine("Usage: dotnet run -- replace <by_category | by_save_path> <pattern> <new_value> [--db <database_path>]");
+            Console.Error.WriteLine("update 参数错误: <by_category | by_save_path>");
+            Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <new_value> [--db <database_path>]");
             return 1;
         }
 
-        var targetField = replaceMode == "by_category" ? "qBt-category" : "save_path";
-        var rows = repository.QueryForExport(replaceMode, pattern);
+        var targetField = updateMode == "by_category" ? "qBt-category" : "save_path";
+        var rows = repository.QueryForExport(updateMode, pattern);
 
         var success = 0;
         var failed = 0;
@@ -255,7 +255,7 @@ TorrentApp
             }
         }
 
-        Console.WriteLine($"replace 完成: success={success}, failed={failed}");
+        Console.WriteLine($"update 完成: success={success}, failed={failed}");
         return failed > 0 ? 1 : 0;
     }
 

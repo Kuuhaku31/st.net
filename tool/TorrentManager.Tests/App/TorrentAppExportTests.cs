@@ -57,8 +57,8 @@ public sealed class TorrentAppExportTests
         var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
         Assert.Equal(0, addExitCode);
 
-        var replaceExitCode = TorrentManager.TorrentApp.Run(new[] { "replace", "by_category", "Old%", "NewCat", "--db", sandbox.DbPath });
-        Assert.Equal(0, replaceExitCode);
+        var updateExitCode = TorrentManager.TorrentApp.Run(new[] { "update", "by_category", "Old%", "NewCat", "--db", sandbox.DbPath });
+        Assert.Equal(0, updateExitCode);
 
         var exportExitCode = TorrentManager.TorrentApp.Run(new[] { "export", "by_category", "NewCat", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
         Assert.Equal(0, exportExitCode);
@@ -79,8 +79,8 @@ public sealed class TorrentAppExportTests
         var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
         Assert.Equal(0, addExitCode);
 
-        var replaceExitCode = TorrentManager.TorrentApp.Run(new[] { "replace", "by_save_path", "%\\old", @"D:\downloads\new", "--db", sandbox.DbPath });
-        Assert.Equal(0, replaceExitCode);
+        var updateExitCode = TorrentManager.TorrentApp.Run(new[] { "update", "by_save_path", "%\\old", @"D:\downloads\new", "--db", sandbox.DbPath });
+        Assert.Equal(0, updateExitCode);
 
         var exportExitCode = TorrentManager.TorrentApp.Run(new[] { "export", "by_save_path", "%\\new", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
         Assert.Equal(0, exportExitCode);
