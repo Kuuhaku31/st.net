@@ -33,6 +33,19 @@ public sealed class TorrentAppExportTests
         Assert.Single(exportedFiles);
     }
 
+    [Fact]
+    public void Run_Returns1_WhenExportPathInvalid()
+    {
+        using var sandbox = new TempSandbox();
+
+        var exitCode = TorrentManager.TorrentApp.Run(new[]
+        {
+            "export", "by_category", "%", "--path", "bad\0export", "--db", sandbox.DbPath
+        });
+
+        Assert.Equal(1, exitCode);
+    }
+
     private static byte[] CreateFastResume(string infoHash, string category, string savePath)
     {
         static string EncodeString(string text) => $"{text.Length}:{text}";

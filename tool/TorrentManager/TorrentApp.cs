@@ -49,7 +49,7 @@ TorrentApp
 
         // 数据库初始化
         var repository = new TorrentRepository(parsed.Options["db"]);
-        repository.InitializeDatabase();
+        // repository.InitializeDatabase();
 
         // 命令分发
         var command = parsed.Positionals[0].ToLowerInvariant();
@@ -190,7 +190,15 @@ TorrentApp
         var exportPath =
         options.TryGetValue("path", out var pathValue) && !string.IsNullOrWhiteSpace(pathValue) ?
         pathValue : Environment.CurrentDirectory;
-        Directory.CreateDirectory(exportPath);
+        try
+        {
+            Directory.CreateDirectory(exportPath);
+        }
+        catch(Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException or UnauthorizedAccessException)
+        {
+            Console.Error.WriteLine($"导出路径无效或不可访问: {exportPath}");
+            return 1;
+        }
 
         // 查询数据库并导出匹配的记录为 .fastresume 文件，捕获任何错误并报告。
         var rows = repository.QueryForExport(exportMode, pattern);

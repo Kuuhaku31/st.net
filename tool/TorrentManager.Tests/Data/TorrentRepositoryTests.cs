@@ -6,11 +6,20 @@ using TorrentManager.Models;
 public sealed class TorrentRepositoryTests
 {
     [Fact]
+    public void Ctor_Throws_WhenDbPathInvalid()
+    {
+        var invalidPath = "bad\0path.db";
+
+        var ex = Assert.Throws<ArgumentException>(() => _ = new TorrentRepository(invalidPath));
+
+        Assert.Contains("数据库路径无效", ex.Message);
+    }
+
+    [Fact]
     public void QueryForExport_ByCategory_ReturnsMatchedRows()
     {
         using var sandbox = new TempSandbox();
         var repository = new TorrentRepository(sandbox.DbPath);
-        repository.InitializeDatabase();
 
         repository.Upsert(new FastResumeRecord("hash1", new byte[] { 0x01 }, "Anime", @"D:\downloads\anime"));
         repository.Upsert(new FastResumeRecord("hash2", new byte[] { 0x02 }, "Music", @"D:\downloads\music"));
@@ -26,7 +35,6 @@ public sealed class TorrentRepositoryTests
     {
         using var sandbox = new TempSandbox();
         var repository = new TorrentRepository(sandbox.DbPath);
-        repository.InitializeDatabase();
 
         repository.Upsert(new FastResumeRecord("hash1", new byte[] { 0x01 }, "Anime", @"D:\downloads\anime"));
         repository.Upsert(new FastResumeRecord("hash2", new byte[] { 0x02 }, "Music", @"D:\downloads\music"));
@@ -42,7 +50,6 @@ public sealed class TorrentRepositoryTests
     {
         using var sandbox = new TempSandbox();
         var repository = new TorrentRepository(sandbox.DbPath);
-        repository.InitializeDatabase();
 
         var ex = Assert.Throws<ArgumentException>(() => repository.QueryForExport("invalid", "%"));
 
