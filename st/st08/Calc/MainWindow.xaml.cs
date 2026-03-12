@@ -13,20 +13,20 @@ public partial class MainWindow : Window
     protected override void
     OnPreviewTextInput(TextCompositionEventArgs e)
     {
-        if (DataContext is not ViewModel viewModel)
+        if(DataContext is not ViewModel viewModel)
         {
             base.OnPreviewTextInput(e);
             return;
         }
 
-        if (e.Text == "=")
+        if(e.Text == "=")
         {
             viewModel.ReplaceCommand.Execute(null);
             e.Handled = true;
             return;
         }
 
-        if (e.Text.Length == 1 && "0123456789.+-*/()".Contains(e.Text[0]))
+        if(e.Text.Length == 1 && "0123456789.+-*/()".Contains(e.Text[0]))
         {
             viewModel.EnterCharCommand.Execute(e.Text);
             e.Handled = true;
@@ -38,13 +38,13 @@ public partial class MainWindow : Window
 
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
-        if (DataContext is not ViewModel viewModel)
+        if(DataContext is not ViewModel viewModel)
         {
             base.OnPreviewKeyDown(e);
             return;
         }
 
-        switch (e.Key)
+        switch(e.Key)
         {
             case Key.Back:
             case Key.Delete:
@@ -60,7 +60,7 @@ public partial class MainWindow : Window
                 e.Handled = true;
                 return;
             case Key.OemPlus:
-                if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+                if((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
                 {
                     viewModel.EnterCharCommand.Execute("+");
                 }
