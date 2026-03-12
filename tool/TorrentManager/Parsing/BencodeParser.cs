@@ -1,35 +1,28 @@
+
+namespace TorrentManager.Parsing;
+
 using System.Globalization;
 using System.Text;
 
-namespace TorrentManager.Parsing;
 
 /// <summary>
 /// 最小 bencode 解析器：支持 dictionary/list/integer/string。
 /// </summary>
-internal sealed class BencodeParser
+internal sealed class BencodeParser(byte[] data)
 {
-    private readonly byte[] _data;
+    private readonly byte[] _data = data;
     private int _position;
-
-    public BencodeParser(byte[] data)
-    {
-        _data = data;
-    }
 
     public Dictionary<string, object> ParseDictionary()
     {
         var value = ParseValue();
-        if (value is not Dictionary<string, object> dictionary)
-        {
-            throw new InvalidDataException("Bencode 根节点不是字典。");
-        }
 
-        if (_position != _data.Length)
-        {
-            throw new InvalidDataException("Bencode 存在未消费的尾部数据。");
-        }
+        return
+        value is not Dictionary<string, object> dictionary ?
+        throw new InvalidDataException("Bencode 根节点不是字典。") :
 
-        return dictionary;
+        _position != _data.Length ?
+        throw new InvalidDataException("Bencode 存在未消费的尾部数据。") : dictionary;
     }
 
     private object ParseValue()
