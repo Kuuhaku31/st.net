@@ -23,6 +23,19 @@ internal static class FastResumeEditor
         return EncodeDictionary(root);
     }
 
+    public static byte[] ReplaceFieldSubstring(byte[] originalBytes, string fieldName, string searchValue, string replaceValue)
+    {
+        var parser = new BencodeParser(originalBytes);
+        var root = parser.ParseDictionary();
+
+        var currentValue = root.TryGetValue(fieldName, out var value) && value is byte[] bytes
+            ? Encoding.UTF8.GetString(bytes)
+            : string.Empty;
+
+        root[fieldName] = Encoding.UTF8.GetBytes(currentValue.Replace(searchValue, replaceValue, StringComparison.Ordinal));
+        return EncodeDictionary(root);
+    }
+
     private static byte[] EncodeDictionary(Dictionary<string, object> dict)
     {
         using var stream = new MemoryStream();

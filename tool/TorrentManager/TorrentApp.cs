@@ -219,19 +219,40 @@ TorrentApp
     {
         if(positionals.Count < 4)
         {
-            Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <new_value> [--db <database_path>]");
+            Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <replace <search_str> <replace_str> | <new_value>> [options]");
             return 1;
         }
 
         var updateMode = positionals[1].ToLowerInvariant();
         var pattern = positionals[2];
-        var newValue = positionals[3];
 
         if(updateMode is not ("by_category" or "by_save_path"))
         {
             Console.Error.WriteLine("update 参数错误: <by_category | by_save_path>");
-            Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <new_value> [--db <database_path>]");
+            Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <replace <search_str> <replace_str> | <new_value>> [options]");
             return 1;
+        }
+
+        string? searchValue = null;
+        string? replaceValue = null;
+        string updatedValueMode = "set";
+        string? directValue = null;
+
+        if(string.Equals(positionals[3], "replace", StringComparison.OrdinalIgnoreCase))
+        {
+            if(positionals.Count < 6)
+            {
+                Console.Error.WriteLine("Usage: dotnet run -- update <by_category | by_save_path> <pattern> <replace <search_str> <replace_str> | <new_value>> [options]");
+                return 1;
+            }
+
+            updatedValueMode = "replace";
+            searchValue = positionals[4];
+            replaceValue = positionals[5];
+        }
+        else
+        {
+            directValue = positionals[3];
         }
 
         var targetField = updateMode == "by_category" ? "qBt-category" : "save_path";
@@ -243,7 +264,9 @@ TorrentApp
         {
             try
             {
-                var updatedBytes = FastResumeEditor.ReplaceField(row.Data, targetField, newValue);
+                var updatedBytes = updatedValueMode == "replace"
+                    ? FastResumeEditor.ReplaceFieldSubstring(row.Data, targetField, searchValue!, replaceValue!)
+                    : FastResumeEditor.ReplaceField(row.Data, targetField, directValue!);
                 var updatedRecord = FastResumeReader.ReadRecord(updatedBytes);
                 repository.Upsert(updatedRecord);
                 success++;

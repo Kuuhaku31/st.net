@@ -70,14 +70,16 @@ dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_dire
 命令行示例:
 
 ```
-dotnet run -- update <by_category | by_save_path> <pattern> <new_value> [--db <database_path>] # 更新指定分类或保存路径的记录
+dotnet run -- update <by_category | by_save_path> <pattern> <replace <search_str> <replace_str> | <new_value>> [options]
 ```
 
 逻辑:
 
 1. 根据`<by_category | by_save_path>`确定是根据分类还是保存路径进行查询
 2. 使用`<pattern>`进行模糊匹配查询数据库，获取符合条件的记录的`fastresume_file` 字段内容
-3. 修改所有 `fastresume_file` 文件中的 `qBt-category` 或 `save_path` 字段为 `<new_value>`
+3. 根据`<replace <search_str> <replace_str> | <new_value>>`参数确定是进行字符串替换还是直接替换为新值
+   - 如果是字符串替换，则在查询结果的 `fastresume_file` 字段内容中将所有匹配 `search_str` 的部分替换为 `replace_str`
+   - 如果是直接替换，则将查询结果的 `fastresume_file` 字段内容中的指定字段（分类或保存路径）直接替换为 `new_value`
 4. 将更新后的记录写回数据库
 
 ## 模块化测试

@@ -56,6 +56,6 @@ internal static class CommandLineParser
         Console.WriteLine("  dotnet run -- add <path_to_fastresume_file> [--db <database_path>]");
         Console.WriteLine("  dotnet run -- add_all <path_to_fastresume_files_directory> [--db <database_path>]");
         Console.WriteLine("  dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_directory>] [--db <database_path>]");
-        Console.WriteLine("  dotnet run -- update <by_category | by_save_path> <pattern> <new_value> [--db <database_path>]");
+        Console.WriteLine("  dotnet run -- update <by_category | by_save_path> <pattern> <replace <search_str> <replace_str> | <new_value>> [options]");
     }
 }

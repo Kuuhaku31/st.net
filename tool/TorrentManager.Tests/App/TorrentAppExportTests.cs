@@ -92,6 +92,56 @@ public sealed class TorrentAppExportTests
         Assert.Equal(@"D:\downloads\new", record.SavePath);
     }
 
+    [Fact]
+    public void Run_UpdateByCategory_ReplaceMode_UpdatesMatchedSubstring()
+    {
+        using var sandbox = new TempSandbox();
+        File.WriteAllBytes(sandbox.FastResumePath, CreateFastResume("1234567890123456789012345678901234567890", "music/2026-03-07/tmp", @"D:\downloads\music"));
+
+        var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
+        Assert.Equal(0, addExitCode);
+
+        var updateExitCode = TorrentManager.TorrentApp.Run(new[]
+        {
+            "update", "by_category", "music/%", "replace", "tmp", "tmp2", "--db", sandbox.DbPath
+        });
+        Assert.Equal(0, updateExitCode);
+
+        var exportExitCode = TorrentManager.TorrentApp.Run(new[] { "export", "by_category", "%tmp2", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
+        Assert.Equal(0, exportExitCode);
+
+        var exportedFiles = Directory.GetFiles(sandbox.ExportDir, "*.fastresume", SearchOption.TopDirectoryOnly);
+        Assert.Single(exportedFiles);
+
+        var record = FastResumeReader.ReadRecord(exportedFiles[0]);
+        Assert.Equal("music/2026-03-07/tmp2", record.QbtCategory);
+    }
+
+    [Fact]
+    public void Run_UpdateBySavePath_ReplaceMode_UpdatesMatchedSubstring()
+    {
+        using var sandbox = new TempSandbox();
+        File.WriteAllBytes(sandbox.FastResumePath, CreateFastResume("1234567890123456789012345678901234567890", "Music", @"D:\qb\Downloads\music\2026-03-07\tmp"));
+
+        var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
+        Assert.Equal(0, addExitCode);
+
+        var updateExitCode = TorrentManager.TorrentApp.Run(new[]
+        {
+            "update", "by_save_path", @"D:\qb\Downloads\music\2026-03-07\tmp", "replace", "tmp", "tmp2", "--db", sandbox.DbPath
+        });
+        Assert.Equal(0, updateExitCode);
+
+        var exportExitCode = TorrentManager.TorrentApp.Run(new[] { "export", "by_save_path", "%tmp2", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
+        Assert.Equal(0, exportExitCode);
+
+        var exportedFiles = Directory.GetFiles(sandbox.ExportDir, "*.fastresume", SearchOption.TopDirectoryOnly);
+        Assert.Single(exportedFiles);
+
+        var record = FastResumeReader.ReadRecord(exportedFiles[0]);
+        Assert.Equal(@"D:\qb\Downloads\music\2026-03-07\tmp2", record.SavePath);
+    }
+
     private static byte[] CreateFastResume(string infoHash, string category, string savePath)
     {
         static string EncodeString(string text) => $"{text.Length}:{text}";
