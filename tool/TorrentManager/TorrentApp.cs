@@ -58,6 +58,7 @@ TorrentApp
             "add"     => RunAdd           (parsed.Positionals, repository),
             "add_all" => RunAddAll        (parsed.Positionals, repository),
             "export"  => RunExport        (parsed.Positionals, parsed.Options, repository),
+            "replace" => RunReplace       (parsed.Positionals, repository),
             _         => RunUnknownCommand(command)
         };
     }
@@ -211,6 +212,51 @@ TorrentApp
         // 完成后报告导出的文件数量和目标路径。
         Console.WriteLine($"已导出 {rows.Count} 个文件到: {Path.GetFullPath(exportPath)}");
         return 0;
+    }
+
+    private static int
+    RunReplace(IReadOnlyList<string> positionals, TorrentRepository repository)
+    {
+        if(positionals.Count < 4)
+        {
+            Console.Error.WriteLine("Usage: dotnet run -- replace <by_category | by_save_path> <pattern> <new_value> [--db <database_path>]");
+            return 1;
+        }
+
+        var replaceMode = positionals[1].ToLowerInvariant();
+        var pattern = positionals[2];
+        var newValue = positionals[3];
+
+        if(replaceMode is not ("by_category" or "by_save_path"))
+        {
+            Console.Error.WriteLine("replace 参数错误: <by_category | by_save_path>");
+            Console.Error.WriteLine("Usage: dotnet run -- replace <by_category | by_save_path> <pattern> <new_value> [--db <database_path>]");
+            return 1;
+        }
+
+        var targetField = replaceMode == "by_category" ? "qBt-category" : "save_path";
+        var rows = repository.QueryForExport(replaceMode, pattern);
+
+        var success = 0;
+        var failed = 0;
+        foreach(var row in rows)
+        {
+            try
+            {
+                var updatedBytes = FastResumeEditor.ReplaceField(row.Data, targetField, newValue);
+                var updatedRecord = FastResumeReader.ReadRecord(updatedBytes);
+                repository.Upsert(updatedRecord);
+                success++;
+            }
+            catch(Exception ex)
+            {
+                failed++;
+                Console.Error.WriteLine($"更新失败 '{row.TorHash}': {ex.Message}");
+            }
+        }
+
+        Console.WriteLine($"replace 完成: success={success}, failed={failed}");
+        return failed > 0 ? 1 : 0;
     }
 
     /// <summary>

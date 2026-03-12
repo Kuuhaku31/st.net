@@ -11,7 +11,12 @@ internal static class FastResumeReader
 {
     public static FastResumeRecord ReadRecord(string filePath)
     {
-        var bytes  = File.ReadAllBytes(filePath);
+        var bytes = File.ReadAllBytes(filePath);
+        return ReadRecord(bytes);
+    }
+
+    public static FastResumeRecord ReadRecord(byte[] bytes)
+    {
         var parser = new BencodeParser(bytes);
         var root   = parser.ParseDictionary();
 
@@ -19,7 +24,6 @@ internal static class FastResumeReader
         var torHash     = NormalizeInfoHash(infoHashRaw);
         var category    = GetOptionalString(root, "qBt-category");
         var savePath    = GetOptionalString(root, "save_path");
-
         return new FastResumeRecord(torHash, bytes, category, savePath);
     }
 

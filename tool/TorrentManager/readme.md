@@ -65,7 +65,22 @@ dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_dire
 3. 将查询结果中的 `fastresume_file` 字段内容写入到指定的导出目录中，文件命名为 `<TOR_HASH>.fastresume`
 4. 导出完成后，输出导出的文件数量和目标路径
 
-### 3. 模块化测试
+### 3. 修改分类或者保存路径
+
+命令行示例:
+
+```
+dotnet run -- replace <by_category | by_save_path> <pattern> <new_value> [--db <database_path>] # 更新指定分类或保存路径的记录
+```
+
+逻辑:
+
+1. 根据`<by_category | by_save_path>`确定是根据分类还是保存路径进行查询
+2. 使用`<pattern>`进行模糊匹配查询数据库，获取符合条件的记录的`fastresume_file` 字段内容
+3. 修改所有 `fastresume_file` 文件中的 `qBt-category` 或 `save_path` 字段为 `<new_value>`
+4. 将更新后的记录写回数据库
+
+## 模块化测试
 
 测试项目:
 
@@ -83,9 +98,15 @@ dotnet test ./tool/TorrentManager.Tests/TorrentManager.Tests.csproj
 2. `Data.TorrentRepository`：`by_category` / `by_save_path` 查询逻辑
 3. `TorrentApp`：导出命令主流程（包含非法参数与导出成功路径）
 
-## 测试
+---
 
 ```
 dotnet run -- export by_category music% --path _exported_music
 dotnet run -- export by_save_path %\music\% --path _exported\music
+
+
+dotnet run -- replace by_category music/2026-03-07/tmp music/2026-03-07/tmp2
+dotnet run -- replace by_save_path D:\qb\Downloads\music\2026-03-07\tmp D:\qb\Downloads\music\2026-03-07\tmp2
+
+dotnet run -- export by_save_path %tmp2 --path _exported\tmp2
 ```
