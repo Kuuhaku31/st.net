@@ -22,3 +22,11 @@ dotnet new sln
 # 创建 WPF 应用程序
 dotnet new wpf -o MyWpfApp
 ```
+
+## 代码格式化
+
+导出当前配置文件
+
+```bash
+dotnet new editorconfig
+```
