@@ -2,7 +2,8 @@ namespace TorrentManager.Tests.Cli;
 
 using TorrentManager.Cli;
 
-public sealed class CommandLineParserTests
+public sealed class
+CommandLineParserTests(ITestOutputHelper output)
 {
     [Fact]
     public void Parse_UsesDefaultDbPath_WhenDbOptionMissing()
@@ -12,7 +13,7 @@ public sealed class CommandLineParserTests
         var parsed = CommandLineParser.Parse(args);
 
         // 输出解析结果以便调试
-        parsed.PrintInfo();
+        output.WriteLine(parsed.ToString());
 
         Assert.Equal(CommandLineParser.DefaultDbPath, parsed.DbPath);
         Assert.Equal("export", parsed.Positionals[0]);

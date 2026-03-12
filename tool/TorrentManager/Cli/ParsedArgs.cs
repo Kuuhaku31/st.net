@@ -12,19 +12,10 @@ internal sealed record ParsedArgs(
     string                              DbPath
 )
 {
-    public void PrintInfo()
+    public override string ToString()
     {
-        Console.WriteLine("Parsed Arguments:");
-        Console.WriteLine($"  DbPath: {DbPath}");
-        Console.WriteLine("  Positionals:");
-        foreach(var pos in Positionals)
-        {
-            Console.WriteLine($"    - {pos}");
-        }
-        Console.WriteLine("  Options:");
-        foreach(var kvp in Options)
-        {
-            Console.WriteLine($"    --{kvp.Key} = {kvp.Value}");
-        }
+        var pos = string.Join(", ", Positionals);
+        var opts = string.Join(", ", Options.Select(kv => $"--{kv.Key}={kv.Value}"));
+        return $"Positionals: [{pos}], Options: {{{opts}}}, DbPath: {DbPath}";
     }
 }
