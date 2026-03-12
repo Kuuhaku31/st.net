@@ -15,7 +15,7 @@ CommandLineParserTests(ITestOutputHelper output)
         // 输出解析结果以便调试
         output.WriteLine(parsed.ToString());
 
-        Assert.Equal(CommandLineParser.DefaultDbPath, parsed.DbPath);
+        Assert.Equal(CommandLineParser.DefaultDbPath, parsed.Options["db"]);
         Assert.Equal("export", parsed.Positionals[0]);
         Assert.Equal("by_category", parsed.Positionals[1]);
         Assert.Equal("A%", parsed.Positionals[2]);
@@ -27,10 +27,10 @@ CommandLineParserTests(ITestOutputHelper output)
         var args = new[] { "export", "by_save_path", "%\\music\\%", "--path", "_out", "--db", "custom.db" };
 
         var parsed = CommandLineParser.Parse(args);
+        output.WriteLine(parsed.ToString());
 
-        Assert.Equal("custom.db", parsed.DbPath);
-        Assert.Equal("_out", parsed.Options["path"]);
         Assert.Equal("custom.db", parsed.Options["db"]);
+        Assert.Equal("_out", parsed.Options["path"]);
     }
 
     [Fact]

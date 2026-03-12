@@ -48,7 +48,7 @@ TorrentApp
         }
 
         // 数据库初始化
-        var repository = new TorrentRepository(parsed.DbPath);
+        var repository = new TorrentRepository(parsed.Options["db"]);
         repository.InitializeDatabase();
 
         // 命令分发

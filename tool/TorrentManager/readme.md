@@ -20,8 +20,13 @@
 ## 操作
 
 ```
-dotnet run -- <command> [options] [--db <database_path>]
+dotnet run -- <command> [options]
 ```
+
+options:
+
+- `--db <database_path>`: 指定数据库文件路径
+- `--path <export_directory>`: 指定导出目录路径
 
 如果 `--db` 参数未提供，默认使用 `./fastresume.db` 作为数据库文件
 

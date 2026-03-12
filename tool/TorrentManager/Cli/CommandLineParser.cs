@@ -42,11 +42,12 @@ internal static class CommandLineParser
             positionals.Add(item);
         }
 
-        var dbPath = options.TryGetValue("db", out var db) && !string.IsNullOrWhiteSpace(db)
-            ? db
-            : DefaultDbPath;
+        if(!options.ContainsKey("db") || string.IsNullOrWhiteSpace(options["db"]))
+        {
+            options["db"] = DefaultDbPath;
+        }
 
-        return new ParsedArgs(positionals, options, dbPath);
+        return new ParsedArgs(positionals, options);
     }
 
     public static void PrintUsage()
