@@ -60,6 +60,24 @@ dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_dire
 3. 将查询结果中的 `fastresume_file` 字段内容写入到指定的导出目录中，文件命名为 `<TOR_HASH>.fastresume`
 4. 导出完成后，输出导出的文件数量和目标路径
 
+### 3. 模块化测试
+
+测试项目:
+
+- `tool/TorrentManager.Tests`
+
+运行测试:
+
+```bash
+dotnet test ./tool/TorrentManager.Tests/TorrentManager.Tests.csproj
+```
+
+当前已覆盖模块:
+
+1. `Cli.CommandLineParser`：参数解析与错误处理
+2. `Data.TorrentRepository`：`by_category` / `by_save_path` 查询逻辑
+3. `TorrentApp`：导出命令主流程（包含非法参数与导出成功路径）
+
 ## 测试
 
 ```

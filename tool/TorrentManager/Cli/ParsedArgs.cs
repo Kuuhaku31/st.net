@@ -10,4 +10,21 @@ internal sealed record ParsedArgs(
     IReadOnlyList<string>               Positionals,
     IReadOnlyDictionary<string, string> Options,
     string                              DbPath
-);
+)
+{
+    public void PrintInfo()
+    {
+        Console.WriteLine("Parsed Arguments:");
+        Console.WriteLine($"  DbPath: {DbPath}");
+        Console.WriteLine("  Positionals:");
+        foreach(var pos in Positionals)
+        {
+            Console.WriteLine($"    - {pos}");
+        }
+        Console.WriteLine("  Options:");
+        foreach(var kvp in Options)
+        {
+            Console.WriteLine($"    --{kvp.Key} = {kvp.Value}");
+        }
+    }
+}

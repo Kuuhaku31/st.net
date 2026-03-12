@@ -1,0 +1,90 @@
+namespace TorrentManager.Tests.App;
+
+public sealed class TorrentAppExportTests
+{
+    [Fact]
+    public void Run_Returns1_WhenExportModeInvalid()
+    {
+        using var sandbox = new TempSandbox();
+        var args = new[] { "export", "bad_mode", "%", "--db", sandbox.DbPath };
+
+        var exitCode = TorrentManager.TorrentApp.Run(args);
+
+        Assert.Equal(1, exitCode);
+    }
+
+    [Fact]
+    public void Run_ExportsFiles_BySavePath()
+    {
+        using var sandbox = new TempSandbox();
+
+        // 先通过 add 命令写入测试数据，再执行 export 验证导出行为。
+        File.WriteAllBytes(sandbox.FastResumePath, CreateFastResume("1234567890123456789012345678901234567890", "Music", @"D:\downloads\music"));
+        var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
+        Assert.Equal(0, addExitCode);
+
+        var exportExitCode = TorrentManager.TorrentApp.Run(new[]
+        {
+            "export", "by_save_path", "%\\music%", "--path", sandbox.ExportDir, "--db", sandbox.DbPath
+        });
+
+        Assert.Equal(0, exportExitCode);
+        var exportedFiles = Directory.GetFiles(sandbox.ExportDir, "*.fastresume", SearchOption.TopDirectoryOnly);
+        Assert.Single(exportedFiles);
+    }
+
+    private static byte[] CreateFastResume(string infoHash, string category, string savePath)
+    {
+        static string EncodeString(string text) => $"{text.Length}:{text}";
+
+        var payload = "d"
+            + EncodeString("info-hash") + EncodeString(infoHash)
+            + EncodeString("qBt-category") + EncodeString(category)
+            + EncodeString("save_path") + EncodeString(savePath)
+            + "e";
+
+        return System.Text.Encoding.UTF8.GetBytes(payload);
+    }
+
+    private sealed class TempSandbox : IDisposable
+    {
+        private readonly string _directory = Path.Combine(Path.GetTempPath(), "torrent-app-tests", Guid.NewGuid().ToString("N"));
+
+        public string DbPath => Path.Combine(_directory, "fastresume.db");
+        public string ExportDir => Path.Combine(_directory, "out");
+        public string FastResumePath => Path.Combine(_directory, "sample.fastresume");
+
+        public TempSandbox()
+        {
+            Directory.CreateDirectory(_directory);
+        }
+
+        public void Dispose()
+        {
+            if (!Directory.Exists(_directory))
+            {
+                return;
+            }
+
+            for (var i = 0; i < 5; i++)
+            {
+                try
+                {
+                    Directory.Delete(_directory, recursive: true);
+                    return;
+                }
+                catch (IOException)
+                {
+                    if (i == 4)
+                    {
+                        return;
+                    }
+
+                    Thread.Sleep(50);
+                }
+            }
+
+            // SQLite 连接池在测试结束时可能短暂持有文件句柄，清理失败时忽略即可。
+        }
+    }
+}

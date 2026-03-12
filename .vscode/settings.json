@@ -6,6 +6,7 @@
     "Mvvm",
     "pascalcase",
     "slnx",
-    "tpascalcase"
-  ]
+    "tpascalcase",
+    "Xunit"
+]
 }
