@@ -10,7 +10,7 @@ public sealed class TorrentAppExportTests
         using var sandbox = new TempSandbox();
         var args = new[] { "export", "bad_mode", "%", "--db", sandbox.DbPath };
 
-        var exitCode = TorrentManager.TorrentApp.Run(args);
+        var exitCode = TorrentApp.Run(args);
 
         Assert.Equal(1, exitCode);
     }
@@ -22,10 +22,10 @@ public sealed class TorrentAppExportTests
 
         // 先通过 add 命令写入测试数据，再执行 export 验证导出行为。
         File.WriteAllBytes(sandbox.FastResumePath, CreateFastResume("1234567890123456789012345678901234567890", "Music", @"D:\downloads\music"));
-        var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
+        var addExitCode = TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
         Assert.Equal(0, addExitCode);
 
-        var exportExitCode = TorrentManager.TorrentApp.Run(new[]
+        var exportExitCode = TorrentApp.Run(new[]
         {
             "export", "by_save_path", "%\\music%", "--path", sandbox.ExportDir, "--db", sandbox.DbPath
         });
@@ -40,7 +40,7 @@ public sealed class TorrentAppExportTests
     {
         using var sandbox = new TempSandbox();
 
-        var exitCode = TorrentManager.TorrentApp.Run(new[]
+        var exitCode = TorrentApp.Run(new[]
         {
             "export", "by_category", "%", "--path", "bad\0export", "--db", sandbox.DbPath
         });
@@ -54,13 +54,13 @@ public sealed class TorrentAppExportTests
         using var sandbox = new TempSandbox();
         File.WriteAllBytes(sandbox.FastResumePath, CreateFastResume("1234567890123456789012345678901234567890", "OldCat", @"D:\downloads\music"));
 
-        var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
+        var addExitCode = TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
         Assert.Equal(0, addExitCode);
 
-        var updateExitCode = TorrentManager.TorrentApp.Run(new[] { "update", "by_category", "Old%", "NewCat", "--db", sandbox.DbPath });
+        var updateExitCode = TorrentApp.Run(new[] { "update", "by_category", "Old%", "NewCat", "--db", sandbox.DbPath });
         Assert.Equal(0, updateExitCode);
 
-        var exportExitCode = TorrentManager.TorrentApp.Run(new[] { "export", "by_category", "NewCat", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
+        var exportExitCode = TorrentApp.Run(new[] { "export", "by_category", "NewCat", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
         Assert.Equal(0, exportExitCode);
 
         var exportedFiles = Directory.GetFiles(sandbox.ExportDir, "*.fastresume", SearchOption.TopDirectoryOnly);
@@ -76,13 +76,13 @@ public sealed class TorrentAppExportTests
         using var sandbox = new TempSandbox();
         File.WriteAllBytes(sandbox.FastResumePath, CreateFastResume("1234567890123456789012345678901234567890", "Music", @"D:\downloads\old"));
 
-        var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
+        var addExitCode = TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
         Assert.Equal(0, addExitCode);
 
-        var updateExitCode = TorrentManager.TorrentApp.Run(new[] { "update", "by_save_path", "%\\old", @"D:\downloads\new", "--db", sandbox.DbPath });
+        var updateExitCode = TorrentApp.Run(new[] { "update", "by_save_path", "%\\old", @"D:\downloads\new", "--db", sandbox.DbPath });
         Assert.Equal(0, updateExitCode);
 
-        var exportExitCode = TorrentManager.TorrentApp.Run(new[] { "export", "by_save_path", "%\\new", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
+        var exportExitCode = TorrentApp.Run(new[] { "export", "by_save_path", "%\\new", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
         Assert.Equal(0, exportExitCode);
 
         var exportedFiles = Directory.GetFiles(sandbox.ExportDir, "*.fastresume", SearchOption.TopDirectoryOnly);
@@ -98,16 +98,16 @@ public sealed class TorrentAppExportTests
         using var sandbox = new TempSandbox();
         File.WriteAllBytes(sandbox.FastResumePath, CreateFastResume("1234567890123456789012345678901234567890", "music/2026-03-07/tmp", @"D:\downloads\music"));
 
-        var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
+        var addExitCode = TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
         Assert.Equal(0, addExitCode);
 
-        var updateExitCode = TorrentManager.TorrentApp.Run(new[]
+        var updateExitCode = TorrentApp.Run(new[]
         {
             "update", "by_category", "music/%", "replace", "tmp", "tmp2", "--db", sandbox.DbPath
         });
         Assert.Equal(0, updateExitCode);
 
-        var exportExitCode = TorrentManager.TorrentApp.Run(new[] { "export", "by_category", "%tmp2", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
+        var exportExitCode = TorrentApp.Run(new[] { "export", "by_category", "%tmp2", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
         Assert.Equal(0, exportExitCode);
 
         var exportedFiles = Directory.GetFiles(sandbox.ExportDir, "*.fastresume", SearchOption.TopDirectoryOnly);
@@ -123,16 +123,16 @@ public sealed class TorrentAppExportTests
         using var sandbox = new TempSandbox();
         File.WriteAllBytes(sandbox.FastResumePath, CreateFastResume("1234567890123456789012345678901234567890", "Music", @"D:\qb\Downloads\music\2026-03-07\tmp"));
 
-        var addExitCode = TorrentManager.TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
+        var addExitCode = TorrentApp.Run(new[] { "add", sandbox.FastResumePath, "--db", sandbox.DbPath });
         Assert.Equal(0, addExitCode);
 
-        var updateExitCode = TorrentManager.TorrentApp.Run(new[]
+        var updateExitCode = TorrentApp.Run(new[]
         {
             "update", "by_save_path", @"D:\qb\Downloads\music\2026-03-07\tmp", "replace", "tmp", "tmp2", "--db", sandbox.DbPath
         });
         Assert.Equal(0, updateExitCode);
 
-        var exportExitCode = TorrentManager.TorrentApp.Run(new[] { "export", "by_save_path", "%tmp2", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
+        var exportExitCode = TorrentApp.Run(new[] { "export", "by_save_path", "%tmp2", "--path", sandbox.ExportDir, "--db", sandbox.DbPath });
         Assert.Equal(0, exportExitCode);
 
         var exportedFiles = Directory.GetFiles(sandbox.ExportDir, "*.fastresume", SearchOption.TopDirectoryOnly);

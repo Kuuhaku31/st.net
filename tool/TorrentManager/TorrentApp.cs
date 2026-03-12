@@ -214,6 +214,14 @@ TorrentApp
         return 0;
     }
 
+    /// <summary>
+    /// 处理 "update" 命令：根据指定的类别模式查询数据库，更新匹配的记录的分类或保存路径字段。
+    /// 支持直接替换为新值或基于原值进行字符串替换。
+    /// 完成后报告更新成功和失败的记录数量。
+    /// </summary>
+    /// <param name="positionals"></param>
+    /// <param name="repository"></param>
+    /// <returns></returns>
     private static int
     RunUpdate(IReadOnlyList<string> positionals, TorrentRepository repository)
     {
