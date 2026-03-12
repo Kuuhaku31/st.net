@@ -167,15 +167,24 @@ TorrentApp
         TorrentRepository                   repository
     )
     {
-        // 参数验证：确保提供了类别参数。
-        if(positionals.Count < 2)
+        // 参数验证：确保提供了查询方式和匹配模式。
+        if(positionals.Count < 3)
         {
-            Console.Error.WriteLine("Usage: dotnet run -- export <category> [--path <export_directory>] [--db <database_path>]");
+            Console.Error.WriteLine("Usage: dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_directory>] [--db <database_path>]");
+            return 1;
+        }
+
+        var exportMode = positionals[1].ToLowerInvariant();
+        var pattern = positionals[2];
+
+        if(exportMode is not ("by_category" or "by_save_path"))
+        {
+            Console.Error.WriteLine("export 参数错误: <by_category | by_save_path>");
+            Console.Error.WriteLine("Usage: dotnet run -- export <by_category | by_save_path> <pattern> [--path <export_directory>] [--db <database_path>]");
             return 1;
         }
 
         // 确定导出路径：如果用户提供了 --path 选项且有效，则使用它；否则使用当前目录。
-        var categoryPattern = positionals[1];
 
         // 确保导出目录存在，如果不存在则创建它。
         var exportPath =
@@ -184,7 +193,7 @@ TorrentApp
         Directory.CreateDirectory(exportPath);
 
         // 查询数据库并导出匹配的记录为 .fastresume 文件，捕获任何错误并报告。
-        var rows = repository.QueryByCategory(categoryPattern);
+        var rows = repository.QueryForExport(exportMode, pattern);
         foreach(var row in rows)
         {
             var output = Path.Combine(exportPath, $"{row.TorHash}.fastresume");

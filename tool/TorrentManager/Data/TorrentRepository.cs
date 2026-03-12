@@ -55,15 +55,23 @@ ON CONFLICT(TOR_HASH) DO UPDATE SET
         command.ExecuteNonQuery();
     }
 
-    public IReadOnlyList<(string TorHash, byte[] Data)> QueryByCategory(string categoryPattern)
+    public IReadOnlyList<(string TorHash, byte[] Data)> QueryForExport(string exportMode, string pattern)
     {
         using var connection = CreateConnection();
         using var command = connection.CreateCommand();
-        command.CommandText = @"
+        command.CommandText = exportMode switch
+        {
+            "by_category" => @"
 SELECT TOR_HASH, fastresume_file
 FROM torrent_fastresume
-WHERE qbt_category LIKE $category;";
-        command.Parameters.AddWithValue("$category", categoryPattern);
+WHERE qbt_category LIKE $pattern;",
+            "by_save_path" => @"
+SELECT TOR_HASH, fastresume_file
+FROM torrent_fastresume
+WHERE save_path LIKE $pattern;",
+            _ => throw new ArgumentException($"不支持的导出方式: {exportMode}")
+        };
+        command.Parameters.AddWithValue("$pattern", pattern);
 
         var result = new List<(string TorHash, byte[] Data)>();
         using var reader = command.ExecuteReader();
