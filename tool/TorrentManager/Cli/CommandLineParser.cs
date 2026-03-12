@@ -5,20 +5,31 @@ namespace TorrentManager.Cli;
 /// </summary>
 internal static class CommandLineParser
 {
+    /// <summary>
+    /// 默认数据库路径：如果用户未指定，则使用当前目录下的 fastresume.db。
+    /// </summary>
     public const string DefaultDbPath = "./fastresume.db";
 
-    public static ParsedArgs Parse(string[] input)
+
+    /// <summary>
+    /// 解析输入参数：支持位置参数和选项（以 -- 开头）。选项必须有对应值，否则抛出异常。返回解析结果对象。
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static ParsedArgs
+    Parse(string[] input)
     {
-        var options = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var options     = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         var positionals = new List<string>();
 
-        for (var i = 0; i < input.Length; i++)
+        for(var i = 0; i < input.Length; i++)
         {
             var item = input[i];
-            if (item.StartsWith("--", StringComparison.Ordinal))
+            if(item.StartsWith("--", StringComparison.Ordinal))
             {
                 var key = item[2..];
-                if (i + 1 >= input.Length || input[i + 1].StartsWith("--", StringComparison.Ordinal))
+                if(i + 1 >= input.Length || input[i + 1].StartsWith("--", StringComparison.Ordinal))
                 {
                     throw new ArgumentException($"选项 '--{key}' 缺少值。");
                 }

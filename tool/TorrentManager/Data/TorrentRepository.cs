@@ -1,20 +1,21 @@
-using Microsoft.Data.Sqlite;
-using TorrentManager.Models;
 
 namespace TorrentManager.Data;
 
+using Microsoft.Data.Sqlite;
+using TorrentManager.Models;
+
+
 /// <summary>
-/// 负责所有 SQLite 读写操作，业务层无需关心 SQL 细节。
+/// TorrentRepository：负责与 SQLite 数据库交互，提供初始化、插入/更新和查询功能。
 /// </summary>
-internal sealed class TorrentRepository
+/// <param name="dbPath"></param>
+internal sealed class TorrentRepository(string dbPath)
 {
-    private readonly string _dbPath;
+    private readonly string _dbPath = dbPath;
 
-    public TorrentRepository(string dbPath)
-    {
-        _dbPath = dbPath;
-    }
-
+    /// <summary>
+    /// 初始化数据库：如果数据库文件不存在，则创建它并设置必要的表结构。
+    /// </summary>
     public void InitializeDatabase()
     {
         var directory = Path.GetDirectoryName(Path.GetFullPath(_dbPath));
