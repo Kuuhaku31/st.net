@@ -47,15 +47,4 @@ internal static class CommandLineParser
         // 返回解析结果对象
         return new ParsedArgs(positionals, options);
     }
-
-    public static void PrintUsage()
-    {
-        Console.WriteLine(Usages.AppTitle);
-        Console.WriteLine();
-        Console.WriteLine(Usages.UsageHeader);
-        Console.WriteLine($"  {Usages.AddCommand}");
-        Console.WriteLine($"  {Usages.AddAllCommand}");
-        Console.WriteLine($"  {Usages.ExportCommand}");
-        Console.WriteLine($"  {Usages.UpdateCommand}");
-    }
 }

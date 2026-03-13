@@ -23,4 +23,15 @@ internal static class Usages
     public const string FileNotFoundPrefix = "文件不存在: ";
     public const string DirectoryNotFoundPrefix = "目录不存在: ";
     public const string ExportPathInvalidPrefix = "导出路径无效或不可访问: ";
+
+    public static void PrintUsage()
+    {
+        Console.WriteLine(AppTitle);
+        Console.WriteLine();
+        Console.WriteLine(UsageHeader);
+        Console.WriteLine($"  {AddCommand}");
+        Console.WriteLine($"  {AddAllCommand}");
+        Console.WriteLine($"  {ExportCommand}");
+        Console.WriteLine($"  {UpdateCommand}");
+    }
 }
