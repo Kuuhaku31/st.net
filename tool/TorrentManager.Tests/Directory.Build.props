@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <OutputPath>../../build/TorrentManager.Tests/bin/</OutputPath>
-    <BaseIntermediateOutputPath>../../build/TorrentManager.Tests/obj/</BaseIntermediateOutputPath>
+    <OutputPath>../build/$(MSBuildProjectName)/bin/</OutputPath>
+    <BaseIntermediateOutputPath>../build/$(MSBuildProjectName)/obj/</BaseIntermediateOutputPath>
   </PropertyGroup>
 </Project>
