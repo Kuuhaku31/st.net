@@ -33,3 +33,46 @@ dotnet new wpf -o MyWpfApp
 ```bash
 dotnet new editorconfig
 ```
+
+## 添加测试
+
+假设项目结构如下
+
+```
+st10\
+    Collection\
+        Collection.csproj
+    ToDoConsole\
+        ToDoConsole.csproj
+    Collection.Tests\
+        Collection.Tests.csproj
+    ToDoConsole.Tests\
+        ToDoConsole.Tests.csproj
+```
+
+1. 创建测试项目
+
+```bash
+dotnet new xunit -o Collection.Tests
+dotnet new xunit -o ToDoConsole.Tests
+```
+
+2. 添加测试项目到解决方案
+
+```bash
+dotnet sln add Collection.Tests/Collection.Tests.csproj
+dotnet sln add ToDoConsole.Tests/ToDoConsole.Tests.csproj
+```
+
+3. 添加对被测试项目的引用
+
+```bash
+dotnet add Collection.Tests/Collection.Tests.csproj reference Collection/Collection.csproj
+dotnet add ToDoConsole.Tests/ToDoConsole.Tests.csproj reference ToDoConsole/ToDoConsole.csproj
+```
+
+4. 运行测试
+
+```bash
+dotnet test
+```
