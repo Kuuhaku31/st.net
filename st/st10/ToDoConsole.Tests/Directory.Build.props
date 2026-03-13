@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <OutputPath>../build/ToDoConsole.Tests/bin/</OutputPath>
-    <BaseIntermediateOutputPath>../build/ToDoConsole.Tests/obj/</BaseIntermediateOutputPath>
+    <OutputPath>../build/$(MSBuildProjectName)/bin/</OutputPath>
+    <BaseIntermediateOutputPath>../build/$(MSBuildProjectName)/obj/</BaseIntermediateOutputPath>
   </PropertyGroup>
 </Project>

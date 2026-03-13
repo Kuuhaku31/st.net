@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <OutputPath>../build/Collection/bin/</OutputPath>
-    <BaseIntermediateOutputPath>../build/Collection/obj/</BaseIntermediateOutputPath>
+    <OutputPath>../build/$(MSBuildProjectName)/bin/</OutputPath>
+    <BaseIntermediateOutputPath>../build/$(MSBuildProjectName)/obj/</BaseIntermediateOutputPath>
   </PropertyGroup>
 </Project>
