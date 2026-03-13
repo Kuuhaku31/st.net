@@ -1,5 +1,5 @@
 
-namespace TorrentManager;
+namespace TorrentManager.App;
 
 using TorrentManager.Cli;
 using TorrentManager.Data;

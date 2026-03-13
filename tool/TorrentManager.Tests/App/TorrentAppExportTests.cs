@@ -1,5 +1,6 @@
 namespace TorrentManager.Tests.App;
 
+using TorrentManager.App;
 using TorrentManager.Parsing;
 
 public sealed class TorrentAppExportTests
