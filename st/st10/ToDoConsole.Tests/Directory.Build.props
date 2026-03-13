@@ -1,6 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <OutputPath>../build/ToDoConsole.Tests/bin/</OutputPath>
-    <BaseIntermediateOutputPath>../build/ToDoConsole.Tests/obj/</BaseIntermediateOutputPath>
-  </PropertyGroup>
-</Project>

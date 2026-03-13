@@ -1,6 +1,7 @@
-namespace TorrentManager.Tests.Cli;
 
+namespace TorrentManager.Tests.Cli;
 using TorrentManager.Cli;
+
 
 public sealed class
 CommandLineParserTests(ITestOutputHelper output)
