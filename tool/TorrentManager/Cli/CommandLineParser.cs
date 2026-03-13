@@ -1,3 +1,4 @@
+
 namespace TorrentManager.Cli;
 
 /// <summary>
@@ -31,7 +32,7 @@ internal static class CommandLineParser
             {
                 var key = item[2..]; // 去掉 -- 前缀得到选项名称
                 if(i + 1 >= input.Length || input[i + 1].StartsWith("--", StringComparison.Ordinal)) // 选项必须有对应值，且下一个参数不能是另一个选项
-                    throw new ArgumentException($"选项 '--{key}' 缺少值。");
+                    throw new ArgumentException($"选项 '{key}' 缺少值。");
                 options[key] = input[++i]; // 将选项值存入字典，++i 跳过值参数
             }
             else positionals.Add(item); // 否则视为位置参数，添加到列表

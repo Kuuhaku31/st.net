@@ -1,8 +1,8 @@
 
-namespace TorrentManager.Data;
-
 using Microsoft.Data.Sqlite;
 using TorrentManager.Models;
+
+namespace TorrentManager.Data;
 
 
 /// <summary>
@@ -11,33 +11,6 @@ using TorrentManager.Models;
 internal sealed class TorrentRepository
 {
     private readonly string _dbPath;
-
-    private readonly string _createTableSql = @"
-CREATE TABLE IF NOT EXISTS torrent_fastresume (
-    TOR_HASH TEXT PRIMARY KEY,
-    fastresume_file BLOB NOT NULL,
-    qbt_category TEXT,
-    save_path TEXT
-);";
-
-    private readonly string _upsertSql = @"
-INSERT INTO torrent_fastresume (TOR_HASH, fastresume_file, qbt_category, save_path)
-VALUES ($hash, $file, $category, $savePath)
-ON CONFLICT(TOR_HASH) DO UPDATE SET
-    fastresume_file = excluded.fastresume_file,
-    qbt_category = excluded.qbt_category,
-    save_path = excluded.save_path;";
-
-    private readonly string _queryByCategorySql = @"
-SELECT TOR_HASH, fastresume_file
-FROM torrent_fastresume
-WHERE qbt_category LIKE $pattern;";
-
-    private readonly string _queryBySavePathSql = @"
-SELECT TOR_HASH, fastresume_file
-FROM torrent_fastresume
-WHERE save_path LIKE $pattern;";
-
 
     /// <summary>
     /// 构造函数：接受数据库路径，确保数据库文件所在目录存在，并创建数据表（如果尚未存在）。
@@ -51,7 +24,7 @@ WHERE save_path LIKE $pattern;";
         // 创建数据库表，如果尚未存在
         using var connection = CreateConnection();
         using var command    = connection.CreateCommand();
-        command.CommandText  = _createTableSql;
+        command.CommandText  = SqlStr.CreateTableSql;
         command.ExecuteNonQuery();
     }
 
@@ -64,7 +37,7 @@ WHERE save_path LIKE $pattern;";
     {
         using var connection = CreateConnection();
         using var command    = connection.CreateCommand();
-        command.CommandText  = _upsertSql;
+        command.CommandText  = SqlStr.UpsertSql;
 
         command.Parameters.AddWithValue("$hash", record.TorHash);
         command.Parameters.AddWithValue("$file", record.FastResumeFile);
@@ -80,8 +53,8 @@ WHERE save_path LIKE $pattern;";
         using var command    = connection.CreateCommand();
         command.CommandText  = exportMode switch
         {
-            "by_category"  => _queryByCategorySql,
-            "by_save_path" => _queryBySavePathSql,
+            "by_category"  => SqlStr.QueryByCategorySql,
+            "by_save_path" => SqlStr.QueryBySavePathSql,
             _              => throw new ArgumentException($"不支持的导出方式: {exportMode}")
         };
         command.Parameters.AddWithValue("$pattern", pattern);
