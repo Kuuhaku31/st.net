@@ -14,6 +14,9 @@ dotnet sln add <project_path>
 
 # 创建新的解决方案
 dotnet new sln
+
+# 移除项目
+dotnet sln remove <project_path>
 ```
 
 ## 创建 WPF 应用程序

@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <OutputPath>../build/Collection/bin/</OutputPath>
+    <BaseIntermediateOutputPath>../build/Collection/obj/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+</Project>
