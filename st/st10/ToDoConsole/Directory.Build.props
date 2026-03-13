@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <OutputPath>../build/ToDoConsole/bin/</OutputPath>
+    <BaseIntermediateOutputPath>../build/ToDoConsole/obj/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+</Project>
