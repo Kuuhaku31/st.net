@@ -7,4 +7,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- 添加 json -->
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <!-- 设置入口点 -->
+  <PropertyGroup>
+    <StartupObject>ProgramJson</StartupObject>
+  </PropertyGroup>
+
 </Project>
