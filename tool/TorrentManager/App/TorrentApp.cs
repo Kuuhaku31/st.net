@@ -1,5 +1,5 @@
 
-namespace TorrentManager;
+namespace TorrentManager.App;
 
 using TorrentManager.Cli;
 using TorrentManager.Data;
@@ -26,7 +26,7 @@ TorrentApp
             // 如果没有参数，直接显示用法信息并退出成功。
             if(args.Length == 0)
             {
-                CommandLineParser.PrintUsage();
+                Usages.PrintUsage();
                 return 0;
             }
 
@@ -35,14 +35,14 @@ TorrentApp
             catch(ArgumentException ex)
             {
                 Console.Error.WriteLine(ex.Message);
-                CommandLineParser.PrintUsage();
+                Usages.PrintUsage();
                 return 1;
             }
 
             // 如果没有位置参数，显示用法信息并退出成功。
             if(parsed.Positionals.Count == 0)
             {
-                CommandLineParser.PrintUsage();
+                Usages.PrintUsage();
                 return 0;
             }
         }
@@ -298,7 +298,7 @@ TorrentApp
     private static int RunUnknownCommand(string command)
     {
         Console.Error.WriteLine(Usages.UnknownCommandPrefix + command);
-        CommandLineParser.PrintUsage();
+        Usages.PrintUsage();
         return 1;
     }
 }

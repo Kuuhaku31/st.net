@@ -1,5 +1,5 @@
 ﻿
-using TorrentManager;
+using TorrentManager.App;
 
 // 主入口：捕获异常并设置适当的退出代码。
 try
