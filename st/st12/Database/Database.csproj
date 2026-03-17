@@ -7,14 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <!-- 添加 json -->
+  <!-- Microsoft.EntityFrameworkCore.SqlServer -->
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
   </ItemGroup>
-
-  <!-- 设置入口点 -->
-  <PropertyGroup>
-    <StartupObject>ProgramJson</StartupObject>
-  </PropertyGroup>
 
 </Project>
