@@ -5,10 +5,12 @@
     "Connor",
     "ipascalcase",
     "LINQ",
+    "localdb",
     "Mvvm",
     "Newtonsoft",
     "pascalcase",
     "slnx",
+    "testdb",
     "tpascalcase",
     "Xunit"
 ]
