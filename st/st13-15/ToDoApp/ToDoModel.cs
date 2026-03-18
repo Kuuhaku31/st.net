@@ -25,7 +25,7 @@ internal class ToDoContext : DbContext
 /// </summary>
 internal static class ToDoModel
 {
-    // 定义一个静态列表来存储 ToDo 项目，初始时包含三个示例项目
+    // 定义一个静态列表来存储 ToDo 项目，初始读取数据库中的数据
     public static List<ToDo> ToDos { get; set; } 
 
     /// <summary>
@@ -120,11 +120,12 @@ internal static class ToDoModel
     public static ToDo Add(ToDo todo)
     {
         ToDo newToDo;
-        using (var context = new ToDoContext())
+        using(var context = new ToDoContext())
         {
-            EntityEntry<ToDo> entry = context.ToDos.Add(todo);
-            newToDo = entry.Entity; 
+            var entry = context.ToDos.Add(todo);
+            newToDo   = entry.Entity; // 获取添加后的 ToDo 对象，此时对象的 Id 已经由数据库生成
             context.SaveChanges();
+
             Debug.WriteLine($"ToDo#{newToDo.Id} has been added");
         }
         return newToDo;
@@ -138,7 +139,7 @@ internal static class ToDoModel
     {
         using var context = new ToDoContext();
         var taskToDelete = context.ToDos.Find(todo.Id);
-        if(taskToDelete != null)
+        if(taskToDelete != null) // 如果找到对应的 ToDo 对象，从数据库中删除该对象，并保存更改
         {
             context.ToDos.Remove(taskToDelete);
             context.SaveChanges();
