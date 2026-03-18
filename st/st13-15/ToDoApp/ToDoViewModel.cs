@@ -51,14 +51,13 @@ ToDoViewModel: ObservableObject
     [RelayCommand]
     private void AddToDo()
     {
-        // 生成一个新的 ID，创建一个新的 ToDo 对象，并监听其属性变化
-        var newId = ListViewRows.Max(x => x.Id) + 1;
-        var todo  = new ToDo(id: newId, name: NewToDoName, deadline: NewToDoDeadline, priority: NewToDoPriority ?? 1);
+        // 由数据库生成自增主键 ID
+        var todo  = new ToDo(name: NewToDoName, deadline: NewToDoDeadline, priority: NewToDoPriority ?? 1);
         todo.PropertyChanged += ToDoPropertyChanged;
 
-        // 将新 ToDo 添加到列表中，并调用模型的添加方法
-        ListViewRows.Add(todo);
-        ToDoModel.Add(todo);
+        // 先落库，保存后对象会带上数据库生成的 Id
+        var saved = ToDoModel.Add(todo);
+        ListViewRows.Add(saved);
 
         // 重置输入框的值
         NewToDoName     = TO_DO_NAME_DEFAULT;
