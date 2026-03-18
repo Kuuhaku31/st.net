@@ -1,49 +1,53 @@
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Diagnostics;
 
-namespace ToDoApp2
+namespace ToDoApp2;
+
+
+/// <summary>
+/// 模型层
+/// </summary>
+internal static class ToDoModel
 {
-    internal class ToDoModel
-    {
-        public List<ToDo> ToDos { get; set; } = [
-            new ToDo(
-                id: 0,
-                name: "Buy milk",
-                deadline: DateTime.Now
-                ),
-            new ToDo(
-                id: 1,
-                name: "Buy new PC",
-                deadline: new DateTime(2023, 12, 24),
-                completed: true,
-                priority: 2
-                ),
-            new ToDo(
-                id: 2,
-                name: "Buy chocolate",
-                deadline: new DateTime(2024, 2, 14),
-                completed: true,
-                priority: 3
-                )
-        ];
+    // 定义一个静态列表来存储 ToDo 项目，初始时包含三个示例项目
+    public static List<ToDo> ToDos { get; set; } = [
+        new ToDo(id: 0,name: "Buy milk",      deadline: DateTime.Now),
+        new ToDo(id: 1,name: "Buy new PC",    deadline: new DateTime(2023, 12, 24), completed: true, priority: 2),
+        new ToDo(id: 2,name: "Buy chocolate", deadline: new DateTime(2024, 2, 14),  completed: true, priority: 3)
+    ];
 
-        public void UpdateName(ToDo todo, string name) => Debug.WriteLine($"Name has been updated to {name} in ToDo#{todo.Id}");
-        public void UpdateDeadline(ToDo todo, DateTime deadline) => Debug.WriteLine($"Deadline has been updated to {deadline} in ToDo#{todo.Id}");
-        public void UpdateCompleted(ToDo todo, bool completed) => Debug.WriteLine($"Completed has been updated to {completed} in ToDo#{todo.Id}");
-        public void Add(ToDo todo) => Debug.WriteLine($"ToDo#{todo.Id} has been added");
-        public void Delete(ToDo todo) => Debug.WriteLine($"ToDo#{todo.Id} has been deleted");
-    }
+    // 定义模型的更新、添加和删除方法，这些方法目前仅输出调试信息，实际应用中可以连接数据库或其他数据存储
+    public static void UpdateName     (ToDo todo, string name)       => Debug.WriteLine($"Name has been updated to {name} in ToDo#{todo.Id}"           );
+    public static void UpdateDeadline (ToDo todo, DateTime deadline) => Debug.WriteLine($"Deadline has been updated to {deadline} in ToDo#{todo.Id}"   );
+    public static void UpdateCompleted(ToDo todo, bool completed)    => Debug.WriteLine($"Completed has been updated to {completed} in ToDo#{todo.Id}" );
+    public static void Add            (ToDo todo)                    => Debug.WriteLine($"ToDo#{todo.Id} has been added"                               );
+    public static void Delete         (ToDo todo)                    => Debug.WriteLine($"ToDo#{todo.Id} has been deleted"                             );
+}
 
-    partial class ToDo(string name, DateTime deadline, bool completed = false, int priority = 1, int? id = null) : ObservableObject
-    {
-        public int? Id { get; set; } = id;
-        [ObservableProperty]
-        private string _name = name;
-        [ObservableProperty]
-        private DateTime _deadline = deadline;
-        [ObservableProperty]
-        private bool _completed = completed;
-        [ObservableProperty]
-        private int _priority = priority;
-    }
+/// <summary>
+/// 定义 ToDo 类，包含名称、截止日期、完成状态、优先级和可选的 ID 属性
+/// 并使用 ObservableObject 以支持属性变化通知
+/// </summary>
+/// <param name="name"></param>
+/// <param name="deadline"></param>
+/// <param name="completed"></param>
+/// <param name="priority"></param>
+/// <param name="id"></param>
+internal partial class
+ToDo(string name, DateTime deadline, bool completed = false, int priority = 1, int? id = null) : ObservableObject
+{
+    public int? Id { get; set; } = id;
+
+    [ObservableProperty]
+    private string _name = name;
+
+    [ObservableProperty]
+    private DateTime _deadline = deadline;
+
+    [ObservableProperty]
+    private bool _completed = completed;
+
+    [ObservableProperty]
+    private int _priority = priority;
 }
