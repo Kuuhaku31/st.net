@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ToDoApp;
 
@@ -167,7 +166,7 @@ ToDo(string name, DateTime deadline, bool completed = false, int priority = 1, i
     
     [ObservableProperty]
     private DateTime _deadline = deadline;
-    
+
     [ObservableProperty]
     private bool _completed = completed;
 

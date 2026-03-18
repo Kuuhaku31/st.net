@@ -52,7 +52,7 @@ ToDoViewModel: ObservableObject
     private void AddToDo()
     {
         // 由数据库生成自增主键 ID
-        var todo  = new ToDo(name: NewToDoName, deadline: NewToDoDeadline, priority: NewToDoPriority ?? 1);
+        var todo = new ToDo(name: NewToDoName, deadline: NewToDoDeadline, priority: NewToDoPriority ?? 1);
         todo.PropertyChanged += ToDoPropertyChanged;
 
         // 先落库，保存后对象会带上数据库生成的 Id
@@ -85,7 +85,7 @@ ToDoViewModel: ObservableObject
     /// </summary>
     /// <param name="sender">传入的 ToDo 对象</param>
     /// <param name="e">属性变化事件参数</param>
-    private void 
+    private static void 
     ToDoPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         // 如果 sender 是 ToDo 对象，根据属性名称调用相应的更新方法
