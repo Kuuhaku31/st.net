@@ -20,6 +20,7 @@ internal static class ToDoModel
     // 定义模型的更新、添加和删除方法，这些方法目前仅输出调试信息，实际应用中可以连接数据库或其他数据存储
     public static void UpdateName     (ToDo todo, string name)       => Debug.WriteLine($"Name has been updated to {name} in ToDo#{todo.Id}"           );
     public static void UpdateDeadline (ToDo todo, DateTime deadline) => Debug.WriteLine($"Deadline has been updated to {deadline} in ToDo#{todo.Id}"   );
+    public static void UpdatePriority (ToDo todo, int priority)      => Debug.WriteLine($"Priority has been updated to {priority} in ToDo#{todo.Id}"   );
     public static void UpdateCompleted(ToDo todo, bool completed)    => Debug.WriteLine($"Completed has been updated to {completed} in ToDo#{todo.Id}" );
     public static void Add            (ToDo todo)                    => Debug.WriteLine($"ToDo#{todo.Id} has been added"                               );
     public static void Delete         (ToDo todo)                    => Debug.WriteLine($"ToDo#{todo.Id} has been deleted"                             );

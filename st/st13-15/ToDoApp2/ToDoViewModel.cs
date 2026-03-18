@@ -29,6 +29,10 @@ ToDoViewModel: ObservableObject
     [ObservableProperty]
     private DateTime _newToDoDeadline = DateTime.Today;
 
+    // 定义用于添加新 ToDo 的优先级属性，默认为null
+    [ObservableProperty]
+    private int? _newToDoPriority = null;
+
     // 构造函数，初始化 ToDo 列表并监听每个 ToDo 的属性变化
     public ToDoViewModel()
     {
@@ -49,7 +53,7 @@ ToDoViewModel: ObservableObject
     {
         // 生成一个新的 ID，创建一个新的 ToDo 对象，并监听其属性变化
         var newId = ListViewRows.Max(x => x.Id) + 1;
-        var todo  = new ToDo(id: newId, name: NewToDoName, deadline: NewToDoDeadline);
+        var todo  = new ToDo(id: newId, name: NewToDoName, deadline: NewToDoDeadline, priority: NewToDoPriority ?? 1);
         todo.PropertyChanged += ToDoPropertyChanged;
 
         // 将新 ToDo 添加到列表中，并调用模型的添加方法
@@ -59,6 +63,7 @@ ToDoViewModel: ObservableObject
         // 重置输入框的值
         NewToDoName     = TO_DO_NAME_DEFAULT;
         NewToDoDeadline = DateTime.Today;
+        NewToDoPriority = null;
     }
 
     /// <summary>
@@ -89,6 +94,7 @@ ToDoViewModel: ObservableObject
         {
         case nameof(ToDo.Name):      ToDoModel.UpdateName     (todo, todo.Name);      break; // 更新名称
         case nameof(ToDo.Deadline):  ToDoModel.UpdateDeadline (todo, todo.Deadline);  break; // 更新截止日期
+        case nameof(ToDo.Priority):  ToDoModel.UpdatePriority (todo, todo.Priority);  break; // 更新优先级
         case nameof(ToDo.Completed): ToDoModel.UpdateCompleted(todo, todo.Completed); break; // 更新完成状态
         default: break;
         }
