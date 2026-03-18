@@ -8,9 +8,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <!-- CommunityToolkit.Mvvm -->
+  <!-- 依赖 -->
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+    <PackageReference Include="Azure.Identity" Version="1.11.0" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.60.1" />
   </ItemGroup>
 
 </Project>
