@@ -1,0 +1,99 @@
+<Window
+
+  x:Class    ="ToDoApp2.MainWindow"
+  xmlns      ="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x    ="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="clr-namespace:ToDoApp2"
+
+  Title      ="ToDo Manager"
+  Height     ="420"
+  Width      ="480"
+
+  >
+
+  <!-- 窗口数据上下文 -->
+  <Window.DataContext>
+    <local:ToDoViewModel/>
+  </Window.DataContext>
+
+  <!-- 表格布局 -->
+  <Grid>
+
+    <!-- 行定义 -->
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <!-- 第0行：标题 -->
+    <!-- 第1行：添加新任务 -->
+    <TextBlock Grid.Row="0" Text="To Do Manager"   FontSize="20" FontWeight="Bold" Margin="5"/>
+    <TextBlock Grid.Row="1" Text="Add a new To Do" FontSize="16"                   Margin="5"/>
+
+    <!-- 第2行：输入区域 -->
+    <Grid Grid.Row="2">
+
+      <!-- 列定义 -->
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+
+      <!-- 设置数据绑定 -->
+      <TextBox    Grid.Column="0" Width  ="200" Padding="3" Text         ="{Binding NewToDoName,     UpdateSourceTrigger=PropertyChanged}"/>
+      <DatePicker Grid.Column="1" Width  ="120"             SelectedDate ="{Binding NewToDoDeadline, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox    Grid.Column="2" Width  ="50"  Padding="3" Text         ="{Binding NewToDoPriority, UpdateSourceTrigger=PropertyChanged}"/>
+      <Button     Grid.Column="3" Content="Add"             Command      ="{Binding AddToDoCommand}"/>
+    </Grid>
+
+    <!-- 第3行：定义表格控件，显示数据 -->
+    <!-- DataGrid内部的数据上下文是ToDo类 -->
+    <DataGrid
+      Grid.Row="3"
+      AutoGenerateColumns="False"
+      ItemsSource="{Binding ListViewRows, UpdateSourceTrigger=PropertyChanged}"
+      HeadersVisibility="Column">
+
+      <!-- 定义表格控件里的列 -->
+      <DataGrid.Columns>
+
+        <!-- Name列 -->
+        <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- Deadline列 -->
+        <DataGridTemplateColumn Header="Deadline" Width="120" SortMemberPath="Deadline">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <DatePicker SelectedDate="{Binding Deadline, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
+        <!-- Priority列 -->
+        <DataGridTextColumn Header="Priority" Width="50" Binding="{Binding Priority, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- Completed列 -->
+        <DataGridCheckBoxColumn Width="30" Binding="{Binding Completed, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- Delete按钮列 -->
+        <DataGridTemplateColumn>
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <!-- 显式指定数据上下文为ToDoViewModel -->
+              <Button
+                Content="Delete"
+                Command="{Binding DataContext.DeleteToDoCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                CommandParameter="{Binding}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
+      </DataGrid.Columns>
+    </DataGrid>
+
+  </Grid>
+</Window>

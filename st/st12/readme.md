@@ -9,4 +9,8 @@ CREATE TABLE [dbo] . [ToDos] (
 )
 ```
 
-## LINQ: 
+## LINQ(Language Integrated Query)
+
+中文: 语言集成查询
+
+Integrated: 集成的
