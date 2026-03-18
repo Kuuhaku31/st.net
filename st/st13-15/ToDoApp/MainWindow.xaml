@@ -81,6 +81,15 @@
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
 
+        <!-- Priority Column -->
+        <DataGridTextColumn
+          Header="Priority"
+          Width="80">
+          <DataGridTextColumn.Binding>
+            <Binding Path="Priority" UpdateSourceTrigger="PropertyChanged"/>
+          </DataGridTextColumn.Binding>
+        </DataGridTextColumn>
+
         <!-- Completed Column -->
         <DataGridCheckBoxColumn
           Width="30"

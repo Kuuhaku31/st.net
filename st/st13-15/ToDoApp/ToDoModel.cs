@@ -22,5 +22,20 @@ partial class ToDo(string name, DateTime deadline, bool completed = false, int? 
     [ObservableProperty]
     private DateTime _deadline = deadline;
     [ObservableProperty]
+    private int _priority = 1;
+    [ObservableProperty]
     private bool _completed = completed;
+
+    partial void OnPriorityChanged(int value)
+    {
+        // Force priority to stay in the valid range.
+        if (value < 1)
+        {
+            Priority = 1;
+        }
+        else if (value > 5)
+        {
+            Priority = 5;
+        }
+    }
 }
